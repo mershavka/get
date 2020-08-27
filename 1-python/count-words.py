@@ -32,4 +32,10 @@ for word, count in list(counts.items()):
 
 finish = datetime.datetime.now()
 
-print(bigword, bigcount, "За ", (start - finish).microseconds / 1e6, "с")
+print("Самое распространенное слово","'"+ bigword+"'","встретилось", bigcount, "раз(а), оно нашлось за", (start - finish).microseconds / 1e6, "с")
+
+while True :
+    my_word = input('Enter word:> ')
+    if(my_word == "exit()"):
+        break
+    print("Слово", "'"+ my_word+"'", "встретилось", counts[my_word], "раз(а)")
