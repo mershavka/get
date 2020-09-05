@@ -2,6 +2,7 @@ import RPi.GPIO as GPIO
 from time import sleep
 
 leds = [21, 20, 16, 12, 7, 8, 25, 23]
+bits = len(leds)
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(leds, GPIO.OUT)
@@ -15,7 +16,7 @@ print(mask)
 mask = mask[2:]
 print(mask)
 
-mask = mask.zfill(8)
+mask = mask.zfill(bits)
 print(mask)
 
 
