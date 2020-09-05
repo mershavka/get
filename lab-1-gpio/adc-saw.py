@@ -55,9 +55,13 @@ GPIO.output(dac, low)
 GPIO.output(top, high)
 GPIO.output(bottom, low)
 
+value = 0
+
 try:
     while True:
-        print(adcEasy())
+      value = (value + 1) % 256
+      dacNumber(value)
+      sleep(0.001)
 
 except KeyboardInterrupt:
     print('The program was stopped by keyboard')

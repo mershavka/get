@@ -55,9 +55,11 @@ GPIO.output(dac, low)
 GPIO.output(top, high)
 GPIO.output(bottom, low)
 
+
 try:
     while True:
-        print(adcEasy())
+      value = input('Enter value> ')
+      dacNumber(int(value))
 
 except KeyboardInterrupt:
     print('The program was stopped by keyboard')
