@@ -2,6 +2,7 @@ import RPi.GPIO as GPIO
 from time import sleep
 import time
 import numpy as np
+import matplotlib.pyplot as plt
 
 leds = [21, 20, 16, 12, 7, 8, 25, 23]
 dac = [26, 19, 13, 6, 5, 11, 9, 10]
@@ -46,7 +47,7 @@ def adc():
 
     return value
 
-seconds = input('Enter how many seconds to measure >')
+seconds = float(input('Enter how many seconds to measure > '))
 timeout = time.time() + seconds
 measure = []
 
@@ -55,12 +56,15 @@ while time.time() < timeout:
     num2pins(leds, value)
     measure.append(value)
 
-print(measure)
-
 period = seconds / len(measure)
 
-filename = '4-adc-measure/data-period{:.4f}seconds-scale{%.4f}volts.txt'.format(period, scale)
+filename = '4-adc-measure/data-period{:.4f}s-scale{:.4f}v.txt'.format(period, scale)
 np.savetxt(filename, measure, fmt='%d')
 
 GPIO.cleanup()
 print('GPIO cleanup completed')
+
+
+time = np.asarray(list(range(0, len(measure)))) * period
+plt.plot(time, np.asarray(measure) * scale)
+plt.show()
