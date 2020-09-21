@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO
 from time import sleep
 
-leds = [23, 25, 8, 7, 12, 16, 20, 21]
+leds = [24, 25, 8, 7, 12, 16, 20, 21]
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(leds, GPIO.OUT)

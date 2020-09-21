@@ -5,20 +5,24 @@ dac = [26, 19, 13, 6, 5, 11, 9, 10]
 bits = len(dac)
 
 comp = 4
+troyka = 17
 
-top = 18
-bottom = 15
+# top = 18
+# bottom = 15
 
 levels = 2 ** bits
 scale = 3.3 / levels
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(dac, GPIO.OUT)
-GPIO.setup([top, bottom], GPIO.OUT)
+GPIO.setup(troyka, GPIO.OUT)
+# GPIO.setup([top, bottom], GPIO.OUT)
 GPIO.setup(comp, GPIO.IN)
 
-GPIO.output(top, GPIO.HIGH)
-GPIO.output(bottom, GPIO.LOW)
+GPIO.output(troyka, GPIO.HIGH)
+
+# GPIO.output(top, GPIO.HIGH)
+# GPIO.output(bottom, GPIO.LOW)
 
 def num2dac(value):
     mask = bin(value)[2:].zfill(bits)
@@ -38,7 +42,7 @@ def adc():
         num2dac(value)
         sleep(0.01)
 
-        sampleVoltageIsLessThanDac = GPIO.input(comp) == 0
+        sampleVoltageIsLessThanDac = GPIO.input(comp) == 1
         up = True if sampleVoltageIsLessThanDac else False
 
     return value

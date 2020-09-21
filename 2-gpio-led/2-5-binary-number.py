@@ -7,7 +7,7 @@ bits = len(leds)
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(leds, GPIO.OUT)
 
-number = 18
+number = 128
 print(number)
 
 mask = bin(number)

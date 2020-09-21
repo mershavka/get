@@ -31,7 +31,7 @@ else:
 
 iconSize = 50
 iconTheme = 'ios'
-colors = {'blue': '005EB8', 'orange': 'FF9919'}
+colors = {'blue': '005EB8', 'orange': 'FF9919', 'green': '00FF00'}
 
 for key in colors:
 
