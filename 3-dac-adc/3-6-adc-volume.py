@@ -52,7 +52,7 @@ try:
     while True:
         value = adc()
 
-        shift = (8 - int((value + 5) / 32))
+        shift = (8 - int((value + 6) / 32))
         volume = 255 >> shift
 
         num2pins(leds, volume)
