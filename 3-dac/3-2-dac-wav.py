@@ -17,38 +17,46 @@ def num2dac(value):
     for i in range(0, len(mask)):
         GPIO.output(dac[i], GPIO.HIGH if mask[i] == '1' else GPIO.LOW)
 
-samplerate, data = wavfile.read('C:/Repositories/Education/get/3-dac/ZOOM0001_LR.WAV')
+samplerate, data = wavfile.read('3-dac/Love and Space 16-4402.WAV', True)
 print(f"number of channels = {data.shape[1]}")
+print(f"sample rate = {samplerate}")
 
 length = data.shape[0] / samplerate
 print(f"length = {length}s")
 
-import matplotlib.pyplot as plt
-import numpy as np
-time = np.linspace(0., length, data.shape[0])
-plt.plot(time, data[:, 0], label="Left channel")
-plt.plot(time, data[:, 1], label="Right channel")
-plt.legend()
-plt.xlabel("Time [s]")
-plt.ylabel("Amplitude")
-plt.show()
+# import matplotlib.pyplot as plt
+# import numpy as np
+# time = np.linspace(0., length, data.shape[0])
+# plt.plot(time, data[:, 0], label="Left channel")
+# plt.plot(time, data[:, 1], label="Right channel")
+# plt.legend()
+# plt.xlabel("Time [s]")
+# plt.ylabel("Amplitude")
+# plt.show()
 
 left = data[:, 0]
-leftUp = left + min(left) * (-1)
-leftNorm = leftUp / max(leftUp)
-
-signal = (leftNorm * 255).astype(int)
+leftNorm = left / (32768*2)
+leftUp = leftNorm + 0.5
+print(min(leftUp), max(leftUp))
+signal = (leftUp * 255).astype(int)
 
 print(signal, min(signal), max(signal))
 
 try:
-    while True:
-      value = int(input('Enter value (-1 to exit) > '))
+    for x in signal:
+        mask = num2dac(x)
+        sleep(0)
+        sleep(0)
+        sleep(0)
+        sleep(0)
+        sleep(0)
+    # while True:
+    #   value = int(input('Enter value (-1 to exit) > '))
       
-      if value < 0:
-          break
+    #   if value < 0:
+    #       break
 
-      mask = num2dac(value)
+    #   mask = num2dac(value)
 
 except KeyboardInterrupt:
     print('The program was stopped by keyboard')

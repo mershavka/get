@@ -16,25 +16,21 @@ def num2dac(value):
         GPIO.output(dac[i], GPIO.HIGH if mask[i] == '1' else GPIO.LOW)
 
 t = 3
-f = 200
-sf = 44100
+f = 440*8
+sf = 48000
 
 time = np.linspace(0, t, t * sf)
 signal = (((np.sin(2 * np.pi * f * time) + 1) / 2) * 255).astype(int)
 
 print(signal)
 
-plt.plot(time, signal)
-plt.show()
+# plt.plot(time, signal)
+# plt.show()
 
 try:
-    while True:
-      value = int(input('Enter value (-1 to exit) > '))
-      
-      if value < 0:
-          break
-
-      mask = num2dac(value)
+    for x in signal:
+      mask = num2dac(x)
+      sleep(1/(sf/2))
 
 except KeyboardInterrupt:
     print('The program was stopped by keyboard')
