@@ -1,7 +1,5 @@
 import RPi.GPIO as GPIO
 from time import sleep
-
-from os.path import dirname, join as pjoin
 from scipy.io import wavfile
 import scipy.io
 
@@ -17,13 +15,17 @@ def num2dac(value):
     for i in range(0, len(mask)):
         GPIO.output(dac[i], GPIO.HIGH if mask[i] == '1' else GPIO.LOW)
 
-samplerate, data = wavfile.read('3-dac/Love and Space 16-4402.WAV', True)
+samplerate, data = wavfile.read('3-dac/SOUND.WAV', True)
+print(f"number of dimensions = {data.ndim}")
+print(f"array size (n*m) = {data.shape}")
 print(f"number of channels = {data.shape[1]}")
 print(f"sample rate = {samplerate}")
+print(f"data type = {data.dtype}")
 
 length = data.shape[0] / samplerate
-print(f"length = {length}s")
+print(f"wav duration in seconds = {length}")
 
+maxInt16Value = 2**15 + 1
 # import matplotlib.pyplot as plt
 # import numpy as np
 # time = np.linspace(0., length, data.shape[0])
@@ -35,9 +37,8 @@ print(f"length = {length}s")
 # plt.show()
 
 left = data[:, 0]
-leftNorm = left / (32768*2)
-leftUp = leftNorm + 0.5
-print(min(leftUp), max(leftUp))
+leftUp = (left / maxInt16Value + 1) / 2
+print('leftUp',min(leftUp), max(leftUp))
 signal = (leftUp * 255).astype(int)
 
 print(signal, min(signal), max(signal))
@@ -50,16 +51,11 @@ try:
         sleep(0)
         sleep(0)
         sleep(0)
-    # while True:
-    #   value = int(input('Enter value (-1 to exit) > '))
-      
-    #   if value < 0:
-    #       break
-
-    #   mask = num2dac(value)
 
 except KeyboardInterrupt:
     print('The program was stopped by keyboard')
 finally:
     GPIO.cleanup()
     print('GPIO cleanup completed')
+GPIO.cleanup()
+print('GPIO cleanup completed')
