@@ -6,13 +6,17 @@ bits = len(dac)
 
 top = 18
 bottom = 15
+troyka = 17
+
+levels = 2 ** bits
+scale = 3.3 / levels
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(dac, GPIO.OUT)
-GPIO.setup([top, bottom], GPIO.OUT)
+GPIO.setup(troyka, GPIO.OUT)
 
-GPIO.output(top, GPIO.HIGH)
-GPIO.output(bottom, GPIO.LOW)
+GPIO.output(troyka, GPIO.HIGH)
+# GPIO.output(bottom, GPIO.LOW)
 
 def num2dac(value):
     mask = bin(value)[2:].zfill(bits)
@@ -23,6 +27,7 @@ def num2dac(value):
 try:
     while True:
       value = int(input('Enter value (-1 to exit) > '))
+      print('{:03d} = {:.2f}V'.format(value, value * scale))
       
       if value < 0:
           break

@@ -33,16 +33,17 @@ def num2dac(value):
 def adc():
     for i in range(0, levels):
         num2dac(i)
-        sleep(0.1)
-        if GPIO.input(comp) < 0:
+        sleep(0.001)
+        compValue = GPIO.input(comp) # IS i > SIG
+        if compValue == 0:
             return i
-
+    num2dac(0)
     return levels
 
 try:
     while True:
         measure = adc()
-        print('Digital code: {:3d}, Analog value: {:.2f}V'.format(measure, measure * scale))
+        print('Digital value: {:3d}, Analog value: {:.2f}V'.format(measure, measure * scale))
 
 except KeyboardInterrupt:
     print('The program was stopped by keyboard')
