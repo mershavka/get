@@ -16,13 +16,9 @@ scale = 3.3 / levels
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(dac, GPIO.OUT)
 GPIO.setup(troyka, GPIO.OUT)
-# GPIO.setup([top, bottom], GPIO.OUT)
 GPIO.setup(comp, GPIO.IN)
 
 GPIO.output(troyka, GPIO.HIGH)
-
-# GPIO.output(top, GPIO.HIGH)
-# GPIO.output(bottom, GPIO.LOW)
 
 def num2dac(value):
     mask = bin(value)[2:].zfill(bits)
@@ -34,8 +30,7 @@ def adc():
     for i in range(0, levels):
         num2dac(i)
         sleep(0.001)
-        compValue = GPIO.input(comp) # IS i > SIG
-        if compValue == 0:
+        if GPIO.input(comp) == 0:
             return i
     num2dac(0)
     return levels
@@ -47,6 +42,7 @@ try:
 
 except KeyboardInterrupt:
     print('The program was stopped by keyboard')
+    
 finally:
     GPIO.cleanup()
     print('GPIO cleanup completed')

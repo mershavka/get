@@ -2,12 +2,9 @@ import RPi.GPIO as GPIO
 from time import sleep
 
 dac = [26, 19, 13, 6, 5, 11, 9, 10]
-bits = len(dac)
-
-top = 18
-bottom = 15
 troyka = 17
 
+bits = len(dac)
 levels = 2 ** bits
 scale = 3.3 / levels
 
@@ -16,7 +13,6 @@ GPIO.setup(dac, GPIO.OUT)
 GPIO.setup(troyka, GPIO.OUT)
 
 GPIO.output(troyka, GPIO.HIGH)
-# GPIO.output(bottom, GPIO.LOW)
 
 def num2dac(value):
     mask = bin(value)[2:].zfill(bits)
@@ -36,6 +32,7 @@ try:
 
 except KeyboardInterrupt:
     print('The program was stopped by keyboard')
+    
 finally:
     GPIO.cleanup()
     print('GPIO cleanup completed')

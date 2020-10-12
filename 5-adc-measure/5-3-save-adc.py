@@ -58,7 +58,7 @@ while time.time() < timeout:
 
 period = seconds / len(measure)
 
-filename = '4-adc-measure/data-period{:.4f}s-scale{:.4f}v.txt'.format(period, scale)
+filename = '5-adc-measure/data-period{:.4f}s-scale{:.4f}v.txt'.format(period, scale)
 np.savetxt(filename, measure, fmt='%d')
 
 GPIO.cleanup()
