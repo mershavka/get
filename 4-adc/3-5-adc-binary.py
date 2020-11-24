@@ -50,4 +50,4 @@ except KeyboardInterrupt:
     
 finally:
     GPIO.cleanup()
-    print('GPIO cleanup completed')
+    print('GPIO cleanup completed') 

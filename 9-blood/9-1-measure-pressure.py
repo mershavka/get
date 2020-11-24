@@ -106,7 +106,7 @@ try:
     
     GPIO.output(troykaVoltage, 1)
     
-    while time.time() - start <= 1:
+    while time.time() - start <= 3:
         value = adc2()
         num2pins(leds, value)
         measure.append(value)
