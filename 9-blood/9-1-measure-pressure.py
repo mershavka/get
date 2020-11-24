@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 # Create variables that will not change in our script ("constants") 
 ################################################################################
 
-leds = [21, 20, 16, 12, 7, 8, 25, 23]
+leds = [21, 20, 16, 12, 7, 8, 25, 24]
 dac = [26, 19, 13, 6, 5, 11, 9, 10]
 comparator = 4
 troykaVoltage = 17
@@ -42,19 +42,44 @@ GPIO.setup(comparator, GPIO.IN)
 def num2pins(pins, value):
     GPIO.output(pins, [int(i) for i in bin(value)[2:].zfill(bits)])
 
+def adc2():
+
+    timeout = 0.0011
+    value = 128
+    delta = 128
+
+    for i in range(8):
+        num2pins(dac, value)
+        time.sleep(timeout)
+
+        direction = -1 if (GPIO.input(comparator) == 0) else 1
+        
+        num = delta * direction / 2
+        
+        # print(value, num, delta, direction)
+        
+        value = int(value + num)
+        delta = delta / 2
+
+    # print(value)
+    return value
+
 def adc():
 
+    timeout = 0.0001
     value = 0
-    up = True
+    direction = 1
 
-    for i in range(bits):
-        delta = 2 ** (bits - 1 - i)
-        value = value + delta * (1 if up else -1)
+    for i in range(8):
+        delta = 2 ** (8 - i - 1)
+        value += delta * direction
 
         num2pins(dac, value)
-        time.sleep(0.0011)
+        time.sleep(timeout)
 
-        up = bool(GPIO.input(comparator))
+        direction = -1 if (GPIO.input(comparator) == 0) else 1
+
+    value += 1 if direction > 0 else 0
 
     return value
 
@@ -81,20 +106,20 @@ try:
     
     GPIO.output(troykaVoltage, 1)
     
-    while value <= 245:
-        value = adc()
+    while time.time() - start <= 1:
+        value = adc2()
         num2pins(leds, value)
         measure.append(value)
 
 
     # 4. Discharge capacitor
 
-    GPIO.output(troykaVoltage, 0)
+    # GPIO.output(troykaVoltage, 0)
 
-    while value > 1:
-        value = adc()
-        num2pins(leds, value)
-        measure.append(value)
+    # while value > 1:
+    #     value = adc()
+    #     num2pins(leds, value)
+    #     measure.append(value)
 
 
     # 5. Fix finish time and print time values
@@ -113,7 +138,7 @@ try:
     plt.plot(measure)
     plt.show()
 
-    np.savetxt('5-adc-measure/data.txt', measure, fmt='%d')
+    np.savetxt('5-adc-measure/calibration_6.txt', measure, fmt='%d')
 
 
 ################################################################################
