@@ -1,6 +1,6 @@
 close all;
 clear variables;
-% Калибровка
+% лБМЙВТПЧЛБ
 calib = load('experimentData/calib.dat');
 calibzero = load('experimentData/calibzero.dat');
 
@@ -17,21 +17,21 @@ pressureCalib = [calibzeroP; calibP];
 
 c = polyfit(adc, pressureCalib, 1);
 
-f1 = figure('Name', 'Калибровка', 'NumberTitle', 'off');
-figure(f1);
+f1 = figure();
 plot(adc, polyval(c, adc), 'Color','k');
 grid on;
-title('Калибровка');
-ylabel('\DeltaP, Па');
-xlabel('Отсчеты АЦП');
+title('лБМЙВТПЧЛБ');
+ylabel('\DeltaP, рБ');
+xlabel('пФУЮЕФЩ бгр');
 hold on;
 plot(calibzero, calibzeroP, 'b.', 'MarkerSize', 20);
 plot(calib, calibP, 'r.', 'MarkerSize', 20);
 
-legend('Калибровочная зависимость', '0 Па', '68 Па', 'Location', 'NorthWest');
-text(700, 20, ['\DeltaP(adc) = ',num2str(c(1)),'*adc + ', num2str(c(2)), ' [Па]']);
-saveas(f1, "calibration.png");
-% Загрузка данных
+legend('лБМЙВТПЧПЮОБС ЪБЧЙУЙНПУФШ', '0 рБ', '68 рБ', 'Location', 'NorthWest');
+text(700, 20, ['\DeltaP(adc) = ',num2str(c(1)),'*adc + ', num2str(c(2)), ' [рБ]']);
+
+saveas(f1, 'calibration.png');
+% ъБЗТХЪЛБ ДБООЩИ
 mm01 = load('experimentData/01mm.dat');
 mm11 = load('experimentData/11mm.dat');
 mm21 = load('experimentData/21mm.dat');
@@ -41,7 +41,7 @@ mm51 = load('experimentData/51mm.dat');
 mm61 = load('experimentData/61mm.dat');
 mm71 = load('experimentData/71mm.dat');
 
-dx = 0.25; % мм
+dx = 0.25; % НН
 x = mm01(:, 1)' * 0.25;
 
 p01 = polyval(c, mm01(:, 2));
@@ -54,26 +54,30 @@ p61 = polyval(c, mm61(:, 2));
 p71 = polyval(c, mm71(:, 2));
 
 pressure = [p01, p11, p21, p31, p41, p51, p61, p71];
-zNames = {'1 мм'; '11 мм'; '21 мм'; '31 мм'; '41 мм'; '51 мм'; '61 мм'; '71 мм'};
+zNames = {'1 НН'; '11 НН'; '21 НН'; '31 НН'; '41 НН'; '51 НН'; '61 НН'; '71 НН'};
 z = [1, 11, 21, 31, 41, 51, 61, 71];
 
-f2 = figure('Name', 'Сечения затопленной струи на разном расстоянии от сопла', 'NumberTitle', 'off');
-figure(f2);
+f2 = figure();
 hold on;
 grid on;
-title('Сечения затопленной струи на разном расстоянии от сопла');
+title({'уЕЮЕОЙС ЪБФПРМЕООПК УФТХЙ', 'ОБ ТБЪОПН ТБУУФПСОЙЙ ПФ УПРМБ'});
+ylabel('\DeltaP, рБ');
+xlabel('тБУУФПСОЙЕ ЧДПМШ УЕЮЕОЙС УФТХЙ, НН');
 
 for i = 1:size(pressure, 2)
     plot(x, pressure(:, i), 'DisplayName', zNames{i});
 end
 
 legend('Location', 'NorthWest');
-% Сдвиг к центру сопла
-f3 = figure('Name', 'Сечения затопленной струи на разном расстоянии от сопла', 'NumberTitle', 'off');
-figure(f3);
+
+saveas(f2, 'pressure.png');
+% уДЧЙЗ Л ГЕОФТХ УПРМБ
+f3 = figure();
 hold on;
 grid on;
-title('Сечения затопленной струи на разном расстоянии от сопла');
+title({'гЕОФТЙТПЧБОЩЕ УЕЮЕОЙС ЪБФПРМЕООПК УФТХЙ', 'ОБ ТБЪОПН ТБУУФПСОЙЙ ПФ УПРМБ'});
+ylabel('\DeltaP, рБ');
+xlabel({'тБУУФПСОЙЕ ЧДПМШ УЕЮЕОЙС УФТХЙ', 'ПФОПУЙФЕМШОП ЕЈ ГЕОФТБ, НН'});
 
 xCentered = zeros(size(pressure));
 offset = 50;
@@ -89,32 +93,31 @@ for i = 1:size(pressure, 2)
 end
 
 legend('Location', 'NorthWest');
-% Расчёт скоростей
+
+saveas(f3, 'centered.png');
+% тБУЮЈФ УЛПТПУФЕК
 density = 1.2;
 velocity = sqrt(2 * abs(pressure) / density);
 
-f4 = figure('Name', 'Сечения затопленной струи на разном расстоянии от сопла', 'NumberTitle', 'off');
-figure(f4);
-hold on;
-grid on;
-title('Сечения затопленной струи на разном расстоянии от сопла');
-
-for i = 1:size(velocity, 2)
-    plot(xCentered(:, i), velocity(:, i), 'DisplayName', zNames{i});
-end
-
-legend('Location', 'NorthWest');
-
-% Визуализация потока
-f5 = figure('Name', 'Сечения затопленной струи на разном расстоянии от сопла', 'NumberTitle', 'off');
-figure(f5);
+f4 = figure();
 surf(z, xCentered, velocity);
-% Расчёт расхода
-dMass = 2 * pi * velocity .* abs(xCentered) * dx / 1000 * density;
+title({'тБУРТЕДЕМЕОЙЕ УЛПТПУФЕК РПФПЛБ', 'Ч ЪБФПРМЕООПК УФТХЕ'});
+xlabel('z, НН');
+ylabel('x, НН');
+zlabel('уЛПТПУФШ РПФПЛБ, Н/У');
+colorbar;
+
+saveas(f4, 'surface.png');
+% тБУЮЈФ ТБУИПДБ
+dMass = 2 * pi * density * (velocity .* abs(xCentered)) * (dx / 1000);
 q = sum(dMass, 1) / 2;
 
-f6 = figure('Name', 'Сечения затопленной струи на разном расстоянии от сопла', 'NumberTitle', 'off');
-figure(f6);
-
-plot(z, q);
+f5 = figure();
+plot(z, q, 'LineWidth', 3);
 grid on;
+
+title('тБУИПД ЪБФПРМЕООПК УФТХЙ');
+xlabel('z, НН');
+ylabel('Q, Н^3/У ');
+
+saveas(f5, 'jet-flow.png');
