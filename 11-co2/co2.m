@@ -9,6 +9,7 @@ totalTime = readmatrix('data\totalTime.txt');
 
 ttRaw = linspace(0, totalTime, length(airRaw))';
 
+
 %% Нормировка
 
 windowSize = 5;
@@ -50,6 +51,7 @@ deltaTBreath = tt(breathSecondPeakIndex) - tt(breathFirstPeakIndex);
 speedInAir = pipeLength / deltaTAir;
 speedInBreath = pipeLength / deltaTBreath;
 
+f1 = figure();
 plot(tt, air);
 grid on;
 title({'Относительное изменение давления у микрофонов', 'в воздухе'});
@@ -57,7 +59,9 @@ legend('Микрофон №1', 'Микрофон №2');
 xlabel('Время, с');
 ylabel('Отсчёты АЦП');
 text(0.008, -100, {['\Deltat = ' num2str(deltaTAir) ' c'], ['V_{зв} = ' num2str(speedInAir) ' м/с']});
+saveas(f1, 'air.png');
 
+f2 = figure();
 plot(tt, breath);
 grid on;
 title({'Относительное изменение давления у микрофонов', 'в воздухе из лёгких'});
@@ -65,8 +69,10 @@ legend('Микрофон №1', 'Микрофон №2');
 xlabel('Время, с');
 ylabel('Отсчёты АЦП');
 text(0.008, -100, {['\Deltat = ' num2str(deltaTBreath) ' c'], ['V_{зв} = ' num2str(speedInBreath) ' м/с']});
+saveas(f2, 'breath.png');
 
-График CO2
+%% График CO2
+
 temperature = 22.4; % С
 h2oX = 0.018;
 
@@ -98,6 +104,7 @@ soundSpeed = sqrt(gamma * R * T ./ (mu / 1000));
 
 co2XMeasured = 0.0092;
 
+f3 = figure();
 plot(co2X, soundSpeed);
 hold on;
 plot(co2X, speedInBreath * ones(size(co2X)));
@@ -108,3 +115,4 @@ legend('Объемная доля H_2O = 0.018, t = 22.4 °C', 'Скорость звука в воздухе из л
 xlabel('Доля CO_2');
 ylabel('Скорость звука, м/с');
 title('Зависимость скорости звука от объёмной доли CO_2');
+saveas(f3, 'result.png');
