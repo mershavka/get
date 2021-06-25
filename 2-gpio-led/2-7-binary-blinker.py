@@ -6,7 +6,7 @@ bits = len(leds)
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(leds, GPIO.OUT)
-
+ 
 def num2led(value):
     mask = bin(value)[2:].zfill(bits)
 
@@ -27,6 +27,7 @@ try:
 
 except KeyboardInterrupt:
     print('The program was stopped by keyboard')
+    
 finally:
     GPIO.cleanup()
     print('GPIO cleanup completed')

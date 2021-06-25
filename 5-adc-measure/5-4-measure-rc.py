@@ -7,9 +7,9 @@
 
 import RPi.GPIO as GPIO
 import time
-import numpy as np
+# import numpy as np
 import matplotlib.pyplot as plt
-
+ 
 
 ################################################################################
 # Create variables that will not change in our script ("constants") 

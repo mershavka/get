@@ -16,7 +16,7 @@ def num2dac(value):
         GPIO.output(dac[i], GPIO.HIGH if mask[i] == '1' else GPIO.LOW)
 
 t = 3
-f = 440*8
+f = 1
 sf = 48000
 
 time = np.linspace(0, t, t * sf)

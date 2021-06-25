@@ -22,7 +22,7 @@ def num2dac(value):
 
     for i in range(0, len(mask)):
         GPIO.output(dac[i], GPIO.HIGH if mask[i] == '1' else GPIO.LOW)
-
+ 
 def adc():
 
     value = 0

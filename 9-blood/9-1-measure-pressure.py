@@ -44,7 +44,7 @@ def num2pins(pins, value):
 
 def adc2():
 
-    timeout = 0.0011
+    timeout = 0.001
     value = 128
     delta = 128
 
@@ -106,9 +106,9 @@ try:
     
     GPIO.output(troykaVoltage, 1)
     
-    while time.time() - start <= 3:
+    while time.time() - start <= 20:
         value = adc2()
-        num2pins(leds, value)
+        # num2pins(leds, value)
         measure.append(value)
 
 
