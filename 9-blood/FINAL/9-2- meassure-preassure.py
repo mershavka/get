@@ -9,6 +9,7 @@ import RPi.GPIO as GPIO
 import time
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 
 
 ################################################################################
@@ -55,28 +56,13 @@ def adc2():
         direction = -1 if (GPIO.input(comparator) == 0) else 1
         
         num = delta * direction / 2
+        
+        # print(value, num, delta, direction)
+        
         value = int(value + num)
         delta = delta / 2
 
-    return value
-
-def adc():
-
-    timeout = 0.0001
-    value = 0
-    direction = 1
-
-    for i in range(8):
-        delta = 2 ** (8 - i - 1)
-        value += delta * direction
-
-        num2pins(dac, value)
-        time.sleep(timeout)
-
-        direction = -1 if (GPIO.input(comparator) == 0) else 1
-
-    value += 1 if direction > 0 else 0
-
+    # print(value)
     return value
 
 def trackingADC():
@@ -120,6 +106,8 @@ try:
         measure.append(value)
         timeline.append(round(time.time()-start, 2))
 
+    # 4. Open files with calibration data
+
     with open('/home/pi/Repositories/get/9-blood/Data/adc160', 'r') as adc1:
         a1 = float(adc1.read())
     with open('/home/pi/Repositories/get/9-blood/Data/barr160', 'r') as barr1:
@@ -132,15 +120,6 @@ try:
     k = (a1-a2)/(b1-b2)
     measure = [i*k for i in measure]
  
-    # 4. Discharge capacitor
-
-    # GPIO.output(troykaVoltage, 0)
-
-    # while value > 1:
-    # value = adc()
-    # num2pins(leds, value)
-    # measure.append(value)
-
     # 5. Fix finish time and print time values
 
     finish = time.time()
@@ -153,21 +132,20 @@ try:
     print("Voltage step: {:.3f} V".format(dV))
 
     # 6. Create plot
-    plt.grid(True)
-    plt.legend(['First series'])
-    plt.title('График давления')
-    plt.xlabel('Время, с')
-    plt.ylabel('Давление, Барр')
 
-    plt.plot(timeline, measure)
-    
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+
+    ax.set(title = 'График зависимости P(t)', xlabel = 'Время, с', ylabel = 'Давление, мм.рт.ст.')
+
+    ax.plot(timeline, measure)
+
     plt.show()
-    time.sleep(10)
-    plt.close()
 
-    fig.savefig('/home/pi/Repositories/get/9-blood/Data/Plot_{}-{}'.format(SP, DP))
+    fig.savefig('/home/pi/Repositories/get/9-blood/Data/Plot')
     np.savetxt('/home/pi/Repositories/get/9-blood/Data/DATA.txt', measure, fmt='%d')
     np.savetxt('/home/pi/Repositories/get/9-blood/Data/TIME.txt', timeline, fmt='%1.2f')
+
     print('Done! Files already saved!')
 
 ################################################################################
