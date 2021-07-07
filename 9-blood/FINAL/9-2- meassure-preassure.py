@@ -88,7 +88,7 @@ def trackingADC():
 
 try:
     # 1. Create variables
-
+    experiment = 2
     measure = []
     timeline = []
     value = 0
@@ -143,8 +143,8 @@ try:
     plt.show()
 
     fig.savefig('/home/pi/Repositories/get/9-blood/Data/Plot')
-    np.savetxt('/home/pi/Repositories/get/9-blood/Data/DATA.txt', measure, fmt='%d')
-    np.savetxt('/home/pi/Repositories/get/9-blood/Data/TIME.txt', timeline, fmt='%1.2f')
+    np.savetxt('/home/pi/Repositories/get/9-blood/Data/DATA{}.txt'.format(experiment), measure, fmt='%d')
+    np.savetxt('/home/pi/Repositories/get/9-blood/Data/TIME{}.txt'.format(experiment), timeline, fmt='%1.2f')
 
     print('Done! Files already saved!')
 

@@ -4,13 +4,13 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 
 # Load data
+experiment = 2
+data = np.loadtxt('/home/pi/Repositories/get/9-blood/Data/DATA{}.txt'.format(experiment))
+timeline = np.loadtxt('/home/pi/Repositories/get/9-blood/Data/TIME{}.txt'.format(experiment))
 
-data = np.loadtxt('/home/pi/Repositories/get/9-blood/Data/DATA.txt')
-timeline = np.loadtxt('/home/pi/Repositories/get/9-blood/Data/TIME.txt')
-
-SP = 131
-DP = 64
-num = 11
+SP = 146
+DP = 65
+num = 20
 
 # Calculations of puls
 
@@ -94,5 +94,5 @@ plt.show()
 
 # Save plot
 
-fig1.savefig('/home/pi/Repositories/get/9-blood/Data/Smoothed_plot_{}-{}.png'.format(SP, DP))
-fig2.savefig('/home/pi/Repositories/get/9-blood/Data/Puls_wave_{}'.format(puls))
+fig1.savefig('/home/pi/Repositories/get/9-blood/Data/Smoothed_plot_{}.png'.format(experiment))
+fig2.savefig('/home/pi/Repositories/get/9-blood/Data/Puls_wave_{}'.format(experiment))
