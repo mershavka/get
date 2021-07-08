@@ -1,7 +1,8 @@
 import RPi.GPIO as GPIO
 import time
+import datetime
 import numpy as np
-import matplotlib.pyplot as plt
+
 
 leds = [21, 20, 16, 12, 7, 8, 25, 24]
 dac = [26, 19, 13, 6, 5, 11, 9, 10]
@@ -38,27 +39,25 @@ def adc2():
     return value
 
 try:
+    
+    now = datetime.datetime.now()
+    DATE = now.strftime("%d.%m.%Y-%H:%M:%S")
   
+    t = 20
     measure = []
     value = 0
-
-    barr = int(input('Barr: '))
     
     start = time.time()
 
     GPIO.output(troykaVoltage, 1)
 
-    while time.time() - start <= 10:
+    while time.time() - start <= t:
         value = adc2()
         measure.append(value)
-    mean = sum(measure)/len(measure)
 
-    with open('adc{}'.format(barr), 'w') as adcX:
-        adcX.write(str(mean))
-    with open('barr{}'.format(barr), 'w') as barrX:
-        barrX.write(str(barr))
+    delta = round(t / int(len(measure)), 3)
     
-    np.savetxt('5-adc-measure/calibration_{}.txt'.format(mean),measure, fmt='%d')
+    np.savetxt('/home/pi/Repositories/get/9-blood/FINAL2/DATA2/{}_{}.txt'.format(DATE, delta), measure, fmt='%d')
     print('Done! Files already saved!')
 
 finally:
