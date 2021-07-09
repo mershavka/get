@@ -57,7 +57,7 @@ try:
 
     delta = round(t / int(len(measure)), 3)
     
-    np.savetxt('/home/pi/Repositories/get/9-blood/FINAL2/DATA2/{}_{}.txt'.format(DATE, delta), measure, fmt='%d')
+    np.savetxt('/home/pi/Repositories/get/9-blood/FINAL/DATA/{}_{}.txt'.format(DATE, delta), measure, fmt='%d')
     print('Done! Files already saved!')
 
 finally:
