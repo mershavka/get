@@ -23,7 +23,7 @@ def plotPressure(measure, timeline, pSP, tSP, pDP, tDP, k):
     ax.text(tDP + 0.5, pDP, 'DP = {}'.format(pDP))
     ax.legend()
     
-    fig.savefig('/home/pi/Repositories/get/9-blood/DATA/Smoothed_plot_measure_{}.png'.format(pSP))
+    fig.savefig('/home/pi/Repositories/9-Plots/Smoothed_plot_measure_{}.png'.format(pSP))
 
 def plotCalibration(measure, timeline, level, k):
 
@@ -34,11 +34,11 @@ def plotCalibration(measure, timeline, level, k):
     ax.xaxis.set_minor_locator(ticker.MultipleLocator(1.0))
     ax.grid(which = 'major', color = 'black')           
     ax.grid(which = 'minor', color = 'gray', linestyle = ':')
-    ax.set(title = 'График зависимости P(t) при калибровке', xlabel = 'Время, с', ylabel = 'Давление, мм.рт.ст.')
+    ax.set(title = 'График зависимости P(t) при калибровке', xlabel = 'Время, с', ylabel = 'Отсчеты АЦП')
 
     ax.plot(timeline, k*measure, label ='')
     
-    fig.savefig('/home/pi/Repositories/get/9-blood/DATA/Smoothed_plot_calibration_{}.png'.format(level))
+    fig.savefig('/home/pi/Repositories/9-Plots/Smoothed_plot_calibration_{}.png'.format(level))
 
 def plotPuls(measure, timeline, puls, k):
 
@@ -47,11 +47,13 @@ def plotPuls(measure, timeline, puls, k):
 
     ax.xaxis.set_major_locator(ticker.MultipleLocator(5.0))
     ax.xaxis.set_minor_locator(ticker.MultipleLocator(1.0))
+    ax.yaxis.set_major_locator(ticker.MultipleLocator(50))
+    ax.yaxis.set_minor_locator(ticker.MultipleLocator(10))
     ax.grid(which = 'major', color = 'black')           
     ax.grid(which = 'minor', color = 'gray', linestyle = ':')
-    ax.set(title = 'График пульсовой волны', xlabel = 'Время, с', ylabel = 'Давление, мм.рт.ст.')
+    ax.set(title = 'График пульсовой волны', xlabel = 'Время, с')
     
     ax.plot(timeline, measure, label = 'Пульс {}'.format(puls))
     ax.legend()
 
-    fig.savefig('/home/pi/Repositories/get/9-blood/DATA/Puls_wave_{}'.format(puls))
+    fig.savefig('/home/pi/Repositories/9-Plots/Puls_wave_{}'.format(puls))

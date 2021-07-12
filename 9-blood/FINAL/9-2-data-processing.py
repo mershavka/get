@@ -29,10 +29,10 @@ LFN_MF = '08.07.2021-13:29:18_0.009.txt'
 
 # Load data from files
 
-HC = np.loadtxt('/home/pi/Repositories/get/9-blood/DATA/08.07.2021-13:26:03_0.009.txt')
-LC = np.loadtxt('/home/pi/Repositories/get/9-blood/DATA/08.07.2021-13:26:33_0.009.txt')
-MR = np.loadtxt('/home/pi/Repositories/get/9-blood/DATA/08.07.2021-13:27:51_0.009.txt')
-MF = np.loadtxt('/home/pi/Repositories/get/9-blood/DATA/08.07.2021-13:29:18_0.009.txt')
+HC = np.loadtxt('/home/pi/Repositories/get/9-blood/DATA/' + LFN_HC)
+LC = np.loadtxt('/home/pi/Repositories/get/9-blood/DATA/' + LFN_LC)
+MR = np.loadtxt('/home/pi/Repositories/get/9-blood/DATA/' + LFN_MR)
+MF = np.loadtxt('/home/pi/Repositories/get/9-blood/DATA/' + LFN_MF)
 
 # Assigning deltas to variables
 
