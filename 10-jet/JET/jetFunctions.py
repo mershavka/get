@@ -50,7 +50,7 @@ def stepBackward(n):
     GPIO.output(directionPin, 0)
     for i in range(n):
         step()
-
+    
 def measure(duration): 
 
     def num2pins(pins, value):
@@ -93,6 +93,4 @@ def deinitGPIOjet():
     GPIO.output(directionPin, 0)
     GPIO.output(troykaVoltage, 0)
     GPIO.output(leds + dac + motor, 0)
-
-    deinitGPIOjet()
     GPIO.cleanup()

@@ -23,31 +23,32 @@ motorPhases = [
     [1, 0, 0, 1],
 ]
 
+func.initGPIOjet()
+
 try: 
     data = []
-    DATE = datetime.datetime.now().strftime("%d.%m.%Y-%H:%M:%S")
-    func.initGPIOjet()
+    #DATE = datetime.datetime.now().strftime("%d.%m.%Y-%H:%M:%S")
 
-    N = 4000 #длина стержня в шагах - ввести
-    L = 5 #cm, длина стержня - ввести
+    mm = 1
 
-    duration = 1 # время записи данных - ввести - скорее всего фикс
-    x = 10 # кол-во точек, скорее всего фикс
-    l = L/x #cm, на сколько сдвинуть
-    n = int(l*N/L) #сдвиг в шагах
+    a = 20 #колво шагов в мм - ввести
+    l = 100 #мm, длина стержня - ввести
+    L = l*a # длина стержня в шагах
+
+    duration = 1 # время записи данных  фикс 
+    x = 5  # кол-во точек фикс. или в мм?
+
+    n = int(L/x) # дельта между точками в шагах
 
     for i in range (x):
         mean = func.measure(duration)
         data.append(mean)
         func.stepForward(n)
-        
 
     for i in range (x):
-        mean = func.measure(duration)
-        data.append(mean)
         func.stepBackward(n)
 
-    np.savetxt('/home/pi/Repositories/get/10-jet/DATAjet/{}.txt'.format(DATE), data, fmt='%d')
+    np.savetxt('/home/pi/Repositories/get/10-jet/DATAjet/{}mm.txt'.format(mm), data, fmt='%d')
 
 finally:
 

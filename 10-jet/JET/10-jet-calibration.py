@@ -20,5 +20,11 @@ motorPhases = [
 
 func.initGPIOjet()
 
-func.measure(5)
-print('Done! Files already saved!')
+try:
+
+    func.measure(5)
+    print('Done! Files already saved!')
+
+finally:
+
+    func.deinitGPIOjet()
