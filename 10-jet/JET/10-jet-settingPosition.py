@@ -23,16 +23,13 @@ func.initGPIOjet()
 
 try:
     steps = 0
-    l = 100 #измеряемая длина в мм
 
     while True:
         n = input('Enter number of steps: ')
         s = str(n)
 
         if s == 's':
-
-            a = steps/l 
-            print(a, ' steps in one mm')
+            print(steps, ' steps in one mm')
             break
 
         n = int(n)
