@@ -9,8 +9,8 @@ from mpl_toolkits.mplot3d import Axes3D
 
 # Enter constants and names
 
-L = 0.03
-low = 0 #давление в паскалях в атм
+L = 30 # в мм
+low = 0 #давление в паскалях в атм-е
 high = 68 #давление в паскалях в потоке
 
 
@@ -55,78 +55,92 @@ k = (high - low)/(meanHP - meanLP)
 
 N1 = 20
 
-L01_Smothed = (np.convolve(L01, np.ones((N1,))/N1, mode = 'valid'))/10 
-L11_Smothed = (np.convolve(L11, np.ones((N1,))/N1, mode = 'valid'))/10 
-L21_Smothed = (np.convolve(L21, np.ones((N1,))/N1, mode = 'valid'))/10  
-L31_Smothed = (np.convolve(L31, np.ones((N1,))/N1, mode = 'valid'))/10  
-L41_Smothed = (np.convolve(L41, np.ones((N1,))/N1, mode = 'valid'))/10  
-L51_Smothed = (np.convolve(L51, np.ones((N1,))/N1, mode = 'valid'))/10  
-L61_Smothed = (np.convolve(L61, np.ones((N1,))/N1, mode = 'valid'))/10  
-L71_Smothed = (np.convolve(L71, np.ones((N1,))/N1, mode = 'valid'))/10  
+L01_Smothed = (np.convolve(L01, np.ones((N1,))/N1, mode = 'valid'))
+L11_Smothed = (np.convolve(L11, np.ones((N1,))/N1, mode = 'valid')) 
+L21_Smothed = (np.convolve(L21, np.ones((N1,))/N1, mode = 'valid'))  
+L31_Smothed = (np.convolve(L31, np.ones((N1,))/N1, mode = 'valid'))  
+L41_Smothed = (np.convolve(L41, np.ones((N1,))/N1, mode = 'valid'))  
+L51_Smothed = (np.convolve(L51, np.ones((N1,))/N1, mode = 'valid'))  
+L61_Smothed = (np.convolve(L61, np.ones((N1,))/N1, mode = 'valid'))  
+L71_Smothed = (np.convolve(L71, np.ones((N1,))/N1, mode = 'valid'))  
 
 # Centering and creating lengthlines 
 
-lengthlineL01 = np.linspace(-15, 15, len(L01)-19) - list(L01_Smothed).index(np.max(L01_Smothed))*26/(len(L01)-19)+15
-lengthlineL11 = np.linspace(-15, 15, len(L11)-19) - list(L11_Smothed).index(np.max(L11_Smothed))*30/(len(L11)-19)+15
-lengthlineL21 = np.linspace(-15, 15, len(L21)-19) - list(L21_Smothed).index(np.max(L21_Smothed))*30/(len(L21)-19)+15
-lengthlineL31 = np.linspace(-15, 15, len(L31)-19) - list(L31_Smothed).index(np.max(L31_Smothed))*30/(len(L31)-19)+15
-lengthlineL41 = np.linspace(-15, 15, len(L41)-19) - list(L41_Smothed).index(np.max(L41_Smothed))*30/(len(L41)-19)+15
-lengthlineL51 = np.linspace(-15, 15, len(L51)-19) - list(L51_Smothed).index(np.max(L51_Smothed))*30/(len(L51)-19)+15
-lengthlineL61 = np.linspace(-15, 15, len(L61)-19) - list(L61_Smothed).index(np.max(L61_Smothed))*30/(len(L61)-19)+15
-lengthlineL71 = np.linspace(-15, 15, len(L71)-19) - list(L71_Smothed).index(np.max(L71_Smothed))*30/(len(L71)-19)+15
+num = len(L01)-N1+1 # num of elements in smoothed plots
+
+lengthlineL01 = np.linspace(-L/2, L/2, num) - list(L01_Smothed).index(np.max(L01_Smothed))*(L-4)/(num)+15
+lengthlineL11 = np.linspace(-L/2, L/2, num) - list(L11_Smothed).index(np.max(L11_Smothed))*L/(num)+15
+lengthlineL21 = np.linspace(-L/2, L/2, num) - list(L21_Smothed).index(np.max(L21_Smothed))*L/(num)+15
+lengthlineL31 = np.linspace(-L/2, L/2, num) - list(L31_Smothed).index(np.max(L31_Smothed))*L/(num)+15
+lengthlineL41 = np.linspace(-L/2, L/2, num) - list(L41_Smothed).index(np.max(L41_Smothed))*L/(num)+15
+lengthlineL51 = np.linspace(-L/2, L/2, num) - list(L51_Smothed).index(np.max(L51_Smothed))*L/(num)+15
+lengthlineL61 = np.linspace(-L/2, L/2, num) - list(L61_Smothed).index(np.max(L61_Smothed))*L/(num)+15
+lengthlineL71 = np.linspace(-L/2, L/2, num) - list(L71_Smothed).index(np.max(L71_Smothed))*L/(num)+15
+
 
 # Calculate jet flow
 
 j = [0]*8
 
-for k in range (len(L01)-19):
-    j[0] += abs(L/len(L01)*((L01[k]-low)*2/1.27)**(1/2))
-    j[1] += abs(L/len(L01)*((L11[k]-low)*2/1.27)**(1/2))
-    j[2] += abs(L/len(L01)*((L21[k]-low)*2/1.27)**(1/2))
-    j[3] += abs(L/len(L01)*((L31[k]-low)*2/1.27)**(1/2))
-    j[4] += abs(L/len(L01)*((L41[k]-low)*2/1.27)**(1/2))
-    j[5] += abs(L/len(L01)*((L51[k]-low)*2/1.27)**(1/2))
-    j[6] += abs(L/len(L01)*((L61[k]-low)*2/1.27)**(1/2))
-    j[7] += abs(L/len(L01)*((L71[k]-low)*2/1.27)**(1/2))
+for i in range (num):
 
-j = [i*np.pi for i in j]
+    j[0] += abs ( (0.00001*L/len(L01))^2*i * ((k*L01[i]-low)*2/1.27)**(1/2) ) # *0.00001 чтобы  было в м
+    j[1] += abs ( (0.00001*L/len(L01))^2*i * ((k*L11[i]-low)*2/1.27)**(1/2) )
+    j[2] += abs ( (0.00001*L/len(L01))^2*i * ((k*L21[i]-low)*2/1.27)**(1/2) )
+    j[3] += abs ( (0.00001*L/len(L01))^2*i * ((k*L31[i]-low)*2/1.27)**(1/2) )
+    j[4] += abs ( (0.00001*L/len(L01))^2*i * ((k*L41[i]-low)*2/1.27)**(1/2) )
+    j[5] += abs ( (0.00001*L/len(L01))^2*i * ((k*L51[i]-low)*2/1.27)**(1/2) )
+    j[6] += abs ( (0.00001*L/len(L01))^2*i * ((k*L61[i]-low)*2/1.27)**(1/2) )
+    j[7] += abs ( 0.00001*L/len(L01)*i * ((k*L71[i]-low)*2/1.27)**(1/2) )
+
+j = [i*2*1.27* np.pi for i in j]
+
 
 # Create 2D plot
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
+ax.grid(color = 'gray', linestyle = ':')
+ax.set(title = 'Центрированный график зависимости P(x)', xlabel = 'x, мм', ylabel = 'Давление P, Па')
 
-ax.plot(lengthlineL01, L01_Smothed, label = '1mm')
-ax.plot(lengthlineL11, L11_Smothed, label = '11mm')
-ax.plot(lengthlineL21, L21_Smothed, label = '21mm')
-ax.plot(lengthlineL31, L31_Smothed, label = '31mm')
-ax.plot(lengthlineL41, L41_Smothed, label = '41mm')
-ax.plot(lengthlineL51, L51_Smothed, label = '51mm')
-ax.plot(lengthlineL61, L61_Smothed, label = '61mm')
-ax.plot(lengthlineL71, L71_Smothed, label = '71mm')
+ax.plot(lengthlineL01, k*L01_Smothed, label = '1mm')
+ax.plot(lengthlineL11, k*L11_Smothed, label = '11mm')
+ax.plot(lengthlineL21, k*L21_Smothed, label = '21mm')
+ax.plot(lengthlineL31, k*L31_Smothed, label = '31mm')
+ax.plot(lengthlineL41, k*L41_Smothed, label = '41mm')
+ax.plot(lengthlineL51, k*L51_Smothed, label = '51mm')
+ax.plot(lengthlineL61, k*L61_Smothed, label = '61mm')
+ax.plot(lengthlineL71, k*L71_Smothed, label = '71mm')
 ax.legend()
+
 
 # Create 3D plot
 
 fig3D = plt.figure()
 ax3D = fig3D.add_subplot(111, projection='3d')
+ax3D.set(title = 'Распределение скоростей потока в затопленной струе', xlabel = 'x, мм', ylabel = 'Расстояние от сопла l, мм', zlabel = 'Скорость потока V, м/с')
 
-ax3D.plot(lengthlineL01, [10]*(len(L01)-19), L01_Smothed)
-ax3D.plot(lengthlineL01, [20]*(len(L11)-19), L11_Smothed)
-ax3D.plot(lengthlineL01, [30]*(len(L21)-19), L21_Smothed)
-ax3D.plot(lengthlineL01, [40]*(len(L31)-19), L31_Smothed)
-ax3D.plot(lengthlineL01, [50]*(len(L41)-19), L41_Smothed)
-ax3D.plot(lengthlineL01, [60]*(len(L51)-19), L51_Smothed)
-ax3D.plot(lengthlineL01, [70]*(len(L61)-19), L61_Smothed)
-ax3D.plot(lengthlineL01, [80]*(len(L71)-19), L71_Smothed)
+ax3D.plot(lengthlineL01, [1]*(num), ((k*L01_Smothed-low)*2/1.27)**(1/2))
+ax3D.plot(lengthlineL01, [11]*(num), ((k*L11_Smothed-low)*2/1.27)**(1/2))
+ax3D.plot(lengthlineL01, [21]*(num), ((k*L21_Smothed-low)*2/1.27)**(1/2))
+ax3D.plot(lengthlineL01, [31]*(num), ((k*L31_Smothed-low)*2/1.27)**(1/2))
+ax3D.plot(lengthlineL01, [41]*(num), ((k*L41_Smothed-low)*2/1.27)**(1/2))
+ax3D.plot(lengthlineL01, [51]*(num), ((k*L51_Smothed-low)*2/1.27)**(1/2))
+ax3D.plot(lengthlineL01, [61]*(num), ((k*L61_Smothed-low)*2/1.27)**(1/2))
+ax3D.plot(lengthlineL01, [71]*(num), ((k*L71_Smothed-low)*2/1.27)**(1/2))
+
 
 # Create plot of jet flow
 
 figJet = plt.figure()
 axJet = figJet.add_subplot(111)
+axJet.set(title = 'График зависимости Q(l)', xlabel = 'Расстояние от сопла l, мм', ylabel = 'Расход Q, м.куб./с')
+axJet.grid(color = 'gray', linestyle = ':')
+
 axJet.plot(np.linspace(1, 71, 8), j)
 
 plt.show()
 
 fig.savefig('/home/pi/Repositories/10-jet-Plots/all.png')
 fig3D.savefig('/home/pi/Repositories/10-jet-Plots/3Dall.png')
+figJet.savefig('/home/pi/Repositories/10-jet-Plots/Jet.png')

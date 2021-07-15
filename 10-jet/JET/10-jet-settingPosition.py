@@ -26,23 +26,28 @@ try:
 
     while True:
         n = input('Enter number of steps: ')
-        s = str(n)
 
-        if s == 's':
-            print(steps, ' steps in one mm')
+        if n == 's':
+            print(steps, ' steps')
+
+        elif n == 'z':
+            steps = 0
+            print(steps, ' steps')
+
+        elif n == 'q':
+            print(steps, ' steps')
             break
 
-        n = int(n)
-        if n < 0:
-            func.stepBackward(abs(n))
+        else:
 
-        if n > 0:
-            func.stepForward(n)
+            n = int(n)
+            if n < 0:
+                func.stepBackward(abs(n))
 
-        if n == 0:
-            steps = 0
+            if n > 0:
+                func.stepForward(n)
 
-        steps += n
+            steps += n
 
 finally:
 
