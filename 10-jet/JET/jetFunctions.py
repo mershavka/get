@@ -78,15 +78,12 @@ def measure(duration):
     value = 0
     
     start = time.time()
-
-    GPIO.output(troykaVoltage, duration)
     
     while time.time() - start <= duration:
         value = adc2()
         data.append(value)
-        mean = sum(data)/len(data)
-        np.savetxt('/home/pi/Repositories/get/10-jet/DATAjet/calibration_{}.txt'.format(DATE), data, fmt='%d')
-    return mean
+        
+    return data
 
 def deinitGPIOjet():
     
