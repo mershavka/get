@@ -29,32 +29,31 @@ try:
     data = []
     #DATE = datetime.datetime.now().strftime("%d.%m.%Y-%H:%M:%S")
 
-    mm = 71
+    distance = 71
 
-    a = 940 #колво шагов в мм - ввести
-    l = 40 #мm, длина стержня - ввести
-     # длина стержня в шагах
+    a = 940 #колво шагов в 40mm
+    l = 40 #калибровка длина
 
-    duration = 0.5 # время записи данных  фикс 
-    x = 100  # кол-во точек
-    L = a*30/l # длина 30mm в шагах
+    duration = 1 # время записи данных  фикс 
+    x = 100  # кол-во точек фикс
+    L = a*30/l # длина 30cm в шагах
 
-    n = int(L/x) # дельта между точками в шагах
+    d = int(L/x) # дельта между точками в шагах
 
     for i in range (x):
         data = func.measure(duration)
         mean = sum(data)/len(data)
         data.append(mean)
-        func.stepForward(n)
+        func.stepForward(d)
 
-    #for i in range (x):
-        #func.stepBackward(n)
-    #time.sleep(2)
+    for i in range (x):
+        func.stepBackward(n)
+    time.sleep(2)
     func.stepBackward(540)
     func.stepForward(35)
 
 
-    np.savetxt('/home/pi/Repositories/get/10-jet/DATAjet/jet/DATA/{}mm.txt'.format(mm), data, fmt='%d')
+    np.savetxt('/home/pi/Repositories/get/10-jet/DATAjet/jet/DATA/{}mm.txt'.format(distance), data, fmt='%d')
 
 finally:
 

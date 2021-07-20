@@ -26,6 +26,7 @@ func.initGPIOjet()
 try:
     DATE = datetime.datetime.now().strftime("%d.%m.%Y-%H:%M:%S")
     data = func.measure(5)
+    
     np.savetxt('/home/pi/Repositories/get/10-jet/DATAjet/jet/DATA/calibration_{}.txt'.format(DATE), data, fmt='%d')
     print('Done! Files already saved!')
 

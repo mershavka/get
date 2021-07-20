@@ -17,8 +17,6 @@ motorPhases = [
     [1, 0, 0, 1],
 ]
 
-N = 6000
-
 func.initGPIOjet()
 
 try:

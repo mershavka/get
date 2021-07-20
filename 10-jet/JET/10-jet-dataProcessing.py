@@ -7,17 +7,19 @@ import os
 import jetFunctions as pp
 from mpl_toolkits.mplot3d import Axes3D
 
-# Enter constants and names
 
+# Enter variables and directory of files
 L = 30 # в мм
 low = 0 #давление в паскалях в атм-е
 high = 68 #давление в паскалях в потоке
 
-
 dir = '/home/pi/Repositories/get/10-jet/DATAjet/jet/DATA/'
+
+
+#soft files by last change
+
 files = os.listdir(dir)
 
-#
 for j in range(len(files)):
     for i in range (len(files)-1):
         if os.stat(dir + files[i+1]).st_mtime < os.stat(dir + files[i]).st_mtime:
@@ -25,6 +27,7 @@ for j in range(len(files)):
             files[i+1] = files[i]
             files[i] = a  
 print(files)
+
 HP = np.loadtxt(dir + files[8])
 LP = np.loadtxt(dir + files[9])
 
@@ -41,7 +44,6 @@ meanLP = sum(LP)/len(LP)
 meanHP = sum(HP)/len(HP)
 
 k = (high - low)/(meanHP - meanLP)
-print(k)
 
 
 # Smoothing plots
@@ -106,7 +108,7 @@ axJet.plot(np.linspace(1, 71, 8), Q)
 plt.show()
 
 
-#Save figs
+#Save plots
 fig.savefig('/home/pi/Repositories/10-jet-Plots/all.png')
 fig3D.savefig('/home/pi/Repositories/10-jet-Plots/3Dall.png')
 figJet.savefig('/home/pi/Repositories/10-jet-Plots/Jet.png')
