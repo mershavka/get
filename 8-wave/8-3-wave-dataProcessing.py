@@ -9,34 +9,23 @@ from mpl_toolkits.mplot3d import Axes3D
 
 
 # Enter variables and directory of files
-L = 30 # в мм
-low = 0 #давление в паскалях в атм-е
-high = 91 #давление в паскалях в потоке
 
-dir = '/home/pi/Repositories/get/10-jet/DATAjet/jet/DATA/'
+low = 1 #уровень воды в см
+high = 5 #уровень воды в см
 
+dir = '/home/pi/Repositories/get/8-wave/DATA'
 
-#soft files by last change
+FN_data = ''
 
-files = os.listdir(dir)
-
-for j in range(len(files)):
-    for i in range (len(files)-1):
-        if os.stat(dir + files[i+1]).st_mtime < os.stat(dir + files[i]).st_mtime:
-            a = files[i+1]
-            files[i+1] = files[i]
-            files[i] = a  
-print(files)
-
-HP = np.loadtxt(dir + files[8])
-LP = np.loadtxt(dir + files[9])
+FN_HL = ''
+FN_LL = ''
 
 
 # Load data from files
-files = files[:8]
-data = []
-for i in range (len(files)):
-    data.append(np.loadtxt(dir + files[i]))
+data = np.loadtxt(dir + data)
+
+HL = np.loadtxt(dir + FN_HL)
+LL = np.loadtxt(dir + FN_LL)
 
 
 # Calculate mean and k

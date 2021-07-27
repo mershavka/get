@@ -31,11 +31,12 @@ try:
 
     distance = 71
 
-    a = 940 #колво шагов в 40mm
-    l = 40 #калибровка длина
+    a = 530 #колво шагов в 40mm
+    l = 30 #калибровка длина
 
     duration = 1 # время записи данных  фикс 
     x = 100  # кол-во точек фикс
+    
     L = a*30/l # длина 30cm в шагах
 
     d = int(L/x) # дельта между точками в шагах
@@ -47,10 +48,10 @@ try:
         func.stepForward(d)
 
     for i in range (x):
-        func.stepBackward(n)
+        func.stepBackward(d)
     time.sleep(2)
-    func.stepBackward(540)
-    func.stepForward(35)
+
+    func.stepForward(200+16)
 
 
     np.savetxt('/home/pi/Repositories/get/10-jet/DATAjet/jet/DATA/{}mm.txt'.format(distance), data, fmt='%d')
