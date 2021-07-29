@@ -5,7 +5,6 @@ import numpy as np
 
 leds = [21, 20, 16, 12, 7, 8, 25, 24]
 dac = [26, 19, 13, 6, 5, 11, 9, 10]
-motor = [15, 14, 3, 2]
 
 bits = len(dac)
 levels = 2 ** bits
@@ -14,55 +13,31 @@ dV = 3.3 / levels
 comparator = 4 
 troykaVoltage = 17
 directionPin = 27
-
-motorPhases = [
-    [1, 1, 0, 0],
-    [0, 1, 1, 0],
-    [0, 0, 1, 1],
-    [1, 0, 0, 1],
-]
-
-import RPi.GPIO as GPIO
-import time
-
-dir = 27
-en = 14
-st = 2
-
-GPIO.setmode(GPIO.BCM)
-GPIO.setup([dir, en, st], GPIO.OUT)
-
-GPIO.output(dir, 0)
-GPIO.output(en, 1)
-
-for i in range (100):
-    GPIO.output(st, 0)
-    time.sleep(0.1)
-    GPIO.output(st, 1)
-    time.sleep(0.1)
-
-GPIO.output(en, 0)
-
-GPIO.cleanup()
+enablePin = 14
+stepPin = 2
 
 def initGPIOjet():
 
     GPIO.setmode(GPIO.BCM)
-    GPIO.setup(leds + dac + motor, GPIO.OUT)
+    GPIO.setup(leds + dac, GPIO.OUT)
     GPIO.setup(troykaVoltage, GPIO.OUT)
     GPIO.setup(comparator, GPIO.IN)
-    GPIO.setup(directionPin, GPIO.OUT)
 
-    GPIO.output(directionPin, 0)
+    GPIO.setup([directionPin, enablePin, stepPin], GPIO.OUT)
+
     GPIO.output(troykaVoltage, 1)
 
-initGPIOjet()
+    GPIO.output(directionPin, 0)
+    GPIO.output(enablePin, 1)
 
 def step():
-    for i in range (4):
-        val = motorPhases[i % len(motorPhases)]
-        GPIO.output(motor, val)
-        time.sleep(0.001)
+
+    GPIO.output(stepPin, 0)
+    time.sleep(0.1)
+    GPIO.output(stepPin, 1)
+    time.sleep(0.1)
+
+    GPIO.output(enablePin, 0)
     
 def stepForward(n):
     GPIO.output(directionPin, 1)
@@ -109,8 +84,10 @@ def measure(duration):
     return data
 
 def deinitGPIOjet():
-    
-    GPIO.output(directionPin, 0)
+ 
     GPIO.output(troykaVoltage, 0)
-    GPIO.output(leds + dac + motor, 0)
+    GPIO.output(directionPin, 0)
+    GPIO.output(enablePin, 0)
+    
+    GPIO.output(leds + dac, 0)
     GPIO.cleanup()
