@@ -9,27 +9,41 @@ from mpl_toolkits.mplot3d import Axes3D
 
 
 # Enter variables and directory of files
-
-low = 85 #уровень воды для калибровки, мм
-high = 160 #уровень воды для калибровки, мм
-
 dir = '/home/pi/Repositories/get/8-wave/DATA/'
 
-FN_data = '28.07.2021-13:31:59.txt'
-FN_LL = '28.07.2021-13:18:42.txt'
-FN_HL = '28.07.2021-13:08:01.txt'
+#soft files by last change
+
+files = os.listdir(dir)
+
+for j in range(len(files)):
+
+    for i in range (len(files)-1):
+
+        if os.stat(dir + files[i+1]).st_mtime < os.stat(dir + files[i]).st_mtime:
+            a = files[i+1]
+            files[i+1] = files[i]
+            files[i] = a
+            
+print(files)
+
 
 # Load data from files
-data = np.loadtxt(dir + FN_data)
-LL = np.loadtxt(dir + FN_LL)
-HL = np.loadtxt(dir + FN_HL)
+data = np.loadtxt(dir + files[6])
+
+files = files[:5]
+levels = []
+
+for i in range (len(files)):
+
+    levels.append(np.loadtxt(dir + files[i]))
 
 # Calculate mean and k
-meanLL = sum(LL)/len(LL)
-meanHL = sum(HL)/len(HL)
+dots = []
 
-k = (high - low)/(meanHL - meanLL)
-print(k)
+for i in levels:
+    dots.append( sum(levels[i])/len(levels[i]) )
+
+np.polyfit(np.linspace(0, 100, 5), dots, 3)
 
 # Smoothing plot
 dataS = []
