@@ -23,11 +23,18 @@ button = 22
 
 func.initGPIOwave()       
 
-try: 
+try:
+    
+    while True:
+        if GPIO.input(button) == 0:
+            print('не сейчас...')
 
-    DATE = datetime.datetime.now().strftime("%d.%m.%Y-%H:%M:%S")
-    data = func.measure(15)
+        if GPIO.input(button) == 1:
+            print('ВОТ СЕЙЧАС!!!')
+            data = func.measure(20)
+            break
 
+    DATE = datetime.datetime.now().strftime("%d.%m.%Y-%H:%M:%S")        
     np.savetxt('/home/pi/Repositories/get/8-wave/DATA/{}.txt'.format(DATE), data, fmt='%d')
 
     fig = plt.figure()

@@ -12,8 +12,12 @@ test = 22
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(test , GPIO.IN)
 
-if GPIO.input(test) == 1:
-    print('hello!')
-if GPIO.input(test) == 0: 
-    print ('loser!')
+while True:
+
+    if GPIO.input(test) == 0:
+        print('hello!')
+        time.sleep(0.1)
+    if GPIO.input(test) == 1: 
+        print ('loser!')
+        time.sleep(0.1)
     
