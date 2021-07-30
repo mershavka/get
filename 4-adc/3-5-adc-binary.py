@@ -33,7 +33,7 @@ def adc():
         value = value + delta * (1 if up else -1)
 
         num2dac(value)
-        sleep(0.01)
+        sleep(0.1)
 
         dacModeSig = GPIO.input(comp) == 0
         up = False if dacModeSig else True
