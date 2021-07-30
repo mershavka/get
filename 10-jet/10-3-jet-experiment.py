@@ -27,7 +27,7 @@ try:
     data = []
     #DATE = datetime.datetime.now().strftime("%d.%m.%Y-%H:%M:%S")
 
-    distance = 71
+    distance = 1
 
     a = 530 #колво шагов в длине калибровки (30mm)
     l = 30 #калибровка длина
@@ -61,6 +61,7 @@ try:
     plt.show()
     time.sleep(5)
     plt.close()
+    fig.savefig('/home/pi/Repositories/10-jet-Plots/{}mm.png'.format(distance))
 
 finally:
 

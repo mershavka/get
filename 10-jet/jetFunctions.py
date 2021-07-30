@@ -28,7 +28,7 @@ def initGPIOjet():
     GPIO.output(troykaVoltage, 1)
 
     GPIO.output(directionPin, 0)
-    GPIO.output(enablePin, 1)
+
 
 def step():
 
@@ -36,18 +36,20 @@ def step():
     time.sleep(0.1)
     GPIO.output(stepPin, 1)
     time.sleep(0.1)
-
-    GPIO.output(enablePin, 0)
     
 def stepForward(n):
     GPIO.output(directionPin, 1)
+    GPIO.output(enablePin, 1)
     for i in range(n):
         step()
+    GPIO.output(enablePin, 0)
 
 def stepBackward(n):
     GPIO.output(directionPin, 0)
+    GPIO.output(enablePin, 1)
     for i in range(n):
         step()
+    GPIO.output(enablePin, 0)
     
 def measure(duration): 
 
