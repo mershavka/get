@@ -28,13 +28,14 @@ for j in range(len(files)):
             files[i] = a  
 print(files)
 
+
+# Load data from files
 HP = np.loadtxt(dir + files[8])
 LP = np.loadtxt(dir + files[9])
 
-
-# Load data from files
 files = files[:8]
 data = []
+
 for i in range (len(files)):
     data.append(np.loadtxt(dir + files[i]))
 

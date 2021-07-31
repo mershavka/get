@@ -7,12 +7,14 @@ import matplotlib.ticker as ticker
 import pathlib
 import os
 
+import waveFunctions as func
+
 
 # Enter variables and directory of files
 dir = '/home/pi/Repositories/get/8-wave/DATA/'
 
-#soft files by last change
 
+#Soft files by last change
 files = os.listdir(dir)
 
 for j in range(len(files)):
@@ -43,21 +45,15 @@ dots = []
 for i in levels:
     dots.append( sum(levels[i])/len(levels[i]) )
 
-np.polyfit(np.linspace(0, 100, 5), dots, 3)
-
-# Smoothing plot
-dataS = []
-N1 = 100
-
-dataS = np.convolve(data, np.ones((N1,))/N1, mode = 'valid')
+polynom = np.polyfit(np.linspace(0, 100, 5), dots, 3)
 
 # Create 2D plot
 fig = plt.figure()
 ax = fig.add_subplot(111)
 ax.grid(color = 'gray', linestyle = ':')
-ax.set(title = 'График зависимости h(t)', xlabel = 'Время t, с', ylabel = 'Уровень воды, мм')
+ax.set(title = 'График зависимости отсчетов АЦП от уровня воды. ', xlabel = 'Уровень воды, мм', ylabel = 'Отсчеты АЦП')
 
-ax.plot(np.linspace(0, 15, len(dataS)), k*dataS)
+ax.plot(np.linspace(0, 100, 5), polynom)
 
 plt.show()
 
