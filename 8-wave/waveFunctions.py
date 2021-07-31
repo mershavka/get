@@ -2,6 +2,8 @@ import RPi.GPIO as GPIO
 import time
 import datetime
 import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 
 leds = [21, 20, 16, 12, 7, 8, 25, 24]
 dac = [26, 19, 13, 6, 5, 11, 9, 10]
@@ -64,3 +66,13 @@ def deinitGPIOwave():
     GPIO.output(leds + dac, 0)
     GPIO.cleanup()
 
+def calibrationPlots(measure, level):
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    ax.grid(color = 'gray', linestyle = ':')
+    ax.set(title = 'График зависимости отсчетов АЦП от времени при калибровке', xlabel = 'Время, с', ylabel = 'Отсчеты АЦП')
+    ax.legend()
+
+    ax.plot(measure)
+
+    fig.savefig('/home/pi/Repositories/get/8-wave/8-wave-plots/calibrationPlot_{}.png'.format(level))
