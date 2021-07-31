@@ -6,7 +6,7 @@ import matplotlib.ticker as ticker
 
 import pathlib
 import os
-import scipy as sc
+
 
 levels = np.linspace(20, 100, 5)
 adc = [20, 90, 150, 205, 230]
@@ -28,9 +28,7 @@ lol = []
 #for i in range (300):
    #lol.append(np.polyval(p, i))
 
-for i in range (len(data)):
-    print(np.polyval(p, data[i]))
-    dataP.append(np.polyval(p, data[i]))
+dataP = np.polyval(p, data)
     
 # fig = plt.figure()
 # ax = fig.add_subplot(111)
