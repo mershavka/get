@@ -7,12 +7,16 @@ import matplotlib.ticker as ticker
 import pathlib
 import os
 
+import waveFunctions as func
+
 
 # Enter variables and directory of files
 dir = '/home/pi/Repositories/get/8-wave/DATA/'
 
-#soft files by last change
+levels = np.linspace(20, 100, 5)
 
+
+#Soft files by last change
 files = os.listdir(dir)
 
 for j in range(len(files)):
@@ -31,35 +35,56 @@ print(files)
 data = np.loadtxt(dir + files[6])
 
 files = files[:5]
-levels = []
+calibrations = []
 
 for i in range (len(files)):
+    calibrations.append(np.loadtxt(dir + files[i]))
 
-    levels.append(np.loadtxt(dir + files[i]))
 
-# Calculate mean and k
-dots = []
+# Calculate mean, create list of dots
+adc = []
 
-for i in levels:
-    dots.append( sum(levels[i])/len(levels[i]) )
+for i in calibrations:
+    adc.append( sum(calibrations[i])/len(calibrations[i]) )
 
-np.polyfit(np.linspace(0, 100, 5), dots, 3)
 
-# Smoothing plot
-dataS = []
-N1 = 100
+# Polynomial selection
+degree = 4
+polyK = np.polyfit(adc, levels, degree) #коэф-ы
+polynom = np.poly1d(polyK) #уравнение (полином)
+print(polynom)
 
-dataS = np.convolve(data, np.ones((N1,))/N1, mode = 'valid')
+yvals = np.polyval(polynom, adc)
 
-# Create 2D plot
+dataP = np.polyval(polynom, data)
+
+# Create calibration plots
+for i in range(len(calibrations)):
+    func.calibrationPlots(calibrations[i], levels[i])
+
+
+# Create polynom plot
 fig = plt.figure()
 ax = fig.add_subplot(111)
 ax.grid(color = 'gray', linestyle = ':')
-ax.set(title = 'График зависимости h(t)', xlabel = 'Время t, с', ylabel = 'Уровень воды, мм')
+ax.set(title = 'График зависимости отсчетов АЦП от уровня воды. ', xlabel = 'Уровень воды, мм', ylabel = 'Отсчеты АЦП')
+ax.legend()
 
-ax.plot(np.linspace(0, 15, len(dataS)), k*dataS)
+ax.scatter(levels, adc, label = 'Точки соответствия отсчетов АЦП уровням воды')
+ax.plot(yvals, adc, label = 'Подобранный полином {} степени'.format(degree))
+
+
+# Create DATA plot
+DATAfig = plt.figure()
+DATAax = DATAfig.add_subplot(111)
+DATAax.grid(color = 'gray', linestyle = ':')
+DATAax.set(title = 'График зависимости уровня воды от времени. ', xlabel = 'Время, с', ylabel = 'Уровень воды, мм')
+DATAax.legend()
+
+DATAax.plot(dataP)
 
 plt.show()
 
 #Save plots
-fig.savefig('/home/pi/Repositories/8-wave-Plots/finalWave.png')
+fig.savefig('/home/pi/Repositories/get/8-wave/8-wave-plots/WaveCalibration.png')
+DATAfig.savefig('/home/pi/Repositories/get/8-wave/8-wave-plots/FinalWave.png')
