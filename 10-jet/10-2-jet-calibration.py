@@ -2,6 +2,7 @@ import RPi.GPIO as GPIO
 import time
 import datetime
 import numpy as np
+import matplotlib.pyplot as plt
 
 import jetFunctions as func
 
@@ -26,6 +27,17 @@ try:
     
     np.savetxt('/home/pi/Repositories/get/10-jet/DATA/calibration_{}.txt'.format(DATE), data, fmt='%d')
     print('Done! Files already saved!')
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    ax.grid(color = 'gray', linestyle = ':')
+    ax.set(xlabel = 'Номер измерения', ylabel = 'Отсчеты АЦП', label = 'Количество измеренй = {}'.format(len(data)))
+    ax.legend()
+    
+    ax.plot(data)
+
+    plt.show()
+    fig.savefig('/home/pi/Repositories/get/10-jet/10-jet-Plots/Calibration-plot{}.png'.format(data[1]))
 
 finally:
 

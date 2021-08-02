@@ -26,25 +26,28 @@ func.initGPIOjet()
 try: 
     data = []
     #DATE = datetime.datetime.now().strftime("%d.%m.%Y-%H:%M:%S")
-
-    distance = 1
+    ex = 2
+    distance = 71
 
     a = 530 #колво шагов в длине калибровки (30mm)
     l = 30 #калибровка длина
 
-    duration = 1 # время записи данных  фикс 
+    duration = 0.1 # время записи данных  фикс 
     x = 100  # кол-во точек фикс
     L = a*30/l # длина 30мм в шагах
 
     d = int(L/x) # дельта между точками в шагах
-
+    dataFin = []
     for i in range (x):
         data = func.measure(duration)
         mean = sum(data)/len(data)
-        data.append(mean)
+        dataFin.append(mean)
+        time.sleep(0.01)
+
+        print(i)
         func.stepForward(d)
         
-    np.savetxt('/home/pi/Repositories/get/10-jet/DATA/{}mm.txt'.format(distance), data, fmt='%d')
+    np.savetxt('/home/pi/Repositories/get/10-jet/DATA/{}mm.txt'.format(distance), dataFin, fmt='%d')
 
     time.sleep(5)
 
@@ -56,12 +59,12 @@ try:
     ax.grid(color = 'gray', linestyle = ':')
     ax.set(title = 'График', xlabel = 'Номер измерения', ylabel = 'Отсчеты АЦП', label = 'Количество измеренй = {}'.format(len(data)))
 
-    ax.plot(data)
+    ax.plot(dataFin)
 
     plt.show()
     time.sleep(5)
     plt.close()
-    fig.savefig('/home/pi/Repositories/10-jet-Plots/{}mm.png'.format(distance))
+    fig.savefig('/home/pi/Repositories/get/10-jet/10-jet-Plots/Ex-plot{}.png'.format(distance))
 
 finally:
 

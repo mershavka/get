@@ -11,12 +11,12 @@ from mpl_toolkits.mplot3d import Axes3D
 # Enter variables and directory of files
 L = 30 # в мм
 low = 0 #давление в паскалях в атм-е
-high = 68 #давление в паскалях в потоке
+high = 51 #давление в паскалях в потоке
 
-dir = '/home/pi/Repositories/get/10-jet/DATAjet/jet/DATA/'
+dir = '/home/pi/Repositories/get/10-jet/DATA/'
 
 
-#soft files by last change
+# Soft files by last change
 
 files = os.listdir(dir)
 
@@ -61,8 +61,6 @@ num = len(data[0])-N1+1 # num of elements in smoothed plots
 
 for i in range (len(dataSP)):
     lengths.append(np.linspace(-L/2, L/2, num) - list(dataSP[i]).index(np.max(dataSP[i]))*L/(num)+15)
-
-lengths[0] = np.linspace(-L/2, L/2, num) - list(dataSP[0]).index(np.max(dataSP[0]))*(L-4)/(num)+15
 
 
 # Calculate jet flow
@@ -110,6 +108,6 @@ plt.show()
 
 
 #Save plots
-fig.savefig('/home/pi/Repositories/10-jet-Plots/all.png')
-fig3D.savefig('/home/pi/Repositories/10-jet-Plots/3Dall.png')
-figJet.savefig('/home/pi/Repositories/10-jet-Plots/Jet.png')
+fig.savefig('/home/pi/Repositories/get/10-jet/10-jet-Plots/all.png')
+fig3D.savefig('/home/pi/Repositories/get/10-jet/10-jet-Plots/3Dall.png')
+figJet.savefig('/home/pi/Repositories/get/10-jet/10-jet-Plots/Jet.png')
