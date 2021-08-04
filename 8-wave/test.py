@@ -46,10 +46,11 @@ ax1 = fig1.add_subplot(111)
 ax1.grid(color = 'gray', linestyle = ':')
 ax1.set(title = 'График зависимости уровня воды от времени. ', xlabel = 'Время, с', ylabel = 'Уровень воды, мм')
 
+box = {'facecolor':'white', 'edgecolor':'black', 'boxstyle':'round'}
+ax1.text(13, 107, 'Cкорость распространения волны по полученным данным {} \n Теоретическая скорость распространения волны {}'.format(1, 2), bbox = box, fontsize = 7)
+
+
 ax.scatter(levels, adc)
 ax.plot(yvals, adc)
 ax1.plot(dataP)
 plt.show()
-
-
-    
