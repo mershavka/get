@@ -8,7 +8,7 @@ from io import BytesIO
 
 
 # Enter directory of files
-dir = '/home/pi/Repositories/get/12-spectr/DATA/dateDATA/'
+dir = '/home/pi/Repositories/get/12-spectr/DATA/newDATAspectr/'
 
 
 # Soft files by last change
