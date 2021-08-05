@@ -5,30 +5,25 @@ import imageio
 from io import BytesIO
 
 # Load and cut image
-pic = imageio.imread('/home/pi/Repositories/get/12-spectr/DATA/StripesSpectr/White_StripesSpectr.png')
+dir = 'C:/Users/ksyurko/Desktop/Repositories/get/12-spectr/DATA/'
+
+pic = imageio.imread(dir + 'StripesSpectr/White_StripesSpectr.png')
 pic = pic[290:460, 450:560, :]
+
 
 # Make monochrome
 gray = lambda rgb: np.dot(rgb [..., :3], [0.299, 0.587, 0.114]) 
 gray = gray(pic)    
 
-# Pixel intensly
 height = pic.shape [0]
 width = pic.shape [1]
 print(height, width)
 
-intense = 0
-
-for x in range (width):
-    for y in range (height):
-
-        if gray[y, x] > 3:
-            intense += gray[y, x] 
-            print (x, ' ', y, ' ', intense) 
 
 # Mercury calibration
-mercury = [576.96, 546.074, 435.83]
-picture = [136, 91, 21]
+picture = [576.96, 546.074, 435.83]
+mercury = [136, 91, 21]
+
 
 # Polynomial selection
 degree = 2
@@ -38,6 +33,23 @@ print(polynom)
 
 yvals = np.polyval(polynom, picture)
 mercurySpectr = np.polyval(polynom, np.linspace(0, height, height)) 
+
+
+# Make intervals lists
+intervals = [[630, 800], 
+            [590, 630], 
+            [570, 590], 
+            [550, 570], 
+            [510, 550], 
+            [480, 510], 
+            [450, 480], 
+            [300, 450]] 
+
+for i in range (len(intervals)):
+    xvals = np.polyval(polynom, np.linspace(intervals[i][0], intervals[i][1], intervals[i][1]-intervals[i][0]))
+    print(xvals.astype(np.int32))
+    np.savetxt(dir + 'interval_{}'.format(i), xvals.astype(np.int32),  fmt='%d')
+
 
 # Show monochrome image
 plt.figure (figsize = (5,5))   
@@ -49,7 +61,6 @@ figCalib = plt.figure()
 ax = figCalib.add_subplot(111)
 ax.grid(color = 'gray', linestyle = ':')
 ax.set(title = 'Зависимость длины волны от номера пикселя (по высоте)', xlabel = 'Номер пикселя', ylabel = 'Длина волны, нм', label = '')
-
 
 ax.scatter(picture, mercury, label = 'Точки соответствия номеров пикселей длинам волн')
 ax.plot(picture, yvals, label = 'Подобранный полином {} степени'.format(degree))
@@ -66,10 +77,10 @@ wavelengthsax.plot(mercurySpectr)
 plt.show()
 
 # Save plots and mercurySpectr
-np.savetxt('/home/pi/Repositories/get/12-spectr/DATA/mercurySpectr.txt', mercurySpectr, fmt='%d')
+np.savetxt(dir + '/mercurySpectr.txt', mercurySpectr, fmt='%d')
 
-figCalib.savefig('/home/pi/Repositories/get/12-spectr/DATA/calibrationPlot.png')
-wavelengthsfig.savefig('/home/pi/Repositories/get/12-spectr/DATA/mercuryPlot.png')
+figCalib.savefig(dir + 'calibrationPlot.png')
+wavelengthsfig.savefig(dir + 'mercuryPlot.png')
 
-imageio.imwrite('/home/pi/Repositories/get/12-spectr/DATA/White_StripesSpectr.color.png', pic, format='png')
-imageio.imwrite('/home/pi/Repositories/get/12-spectr/DATA/White_StripesSpectr.monochrome.png', gray.astype(np.uint8), format='png')
+imageio.imwrite(dir + 'White_StripesSpectr.color.png', pic, format='png')
+imageio.imwrite(dir + 'White_StripesSpectr.monochrome.png', gray.astype(np.uint8), format='png')
