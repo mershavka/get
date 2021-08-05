@@ -8,7 +8,7 @@ from io import BytesIO
 
 
 # Enter directory of files
-dir = '/home/pi/Repositories/get/12-spectr/DATA/FullSpectr'
+dir = '/home/pi/Repositories/get/12-spectr/DATA/dateDATA/'
 
 
 # Soft files by last change
@@ -23,41 +23,27 @@ for j in range(len(files)):
 print(files)
 
 
-# Load data from files and cut pictures
-white = imageio.imread('/home/pi/Repositories/get/12-spectr/DATA/White_StripesSpectr.monochrome')
+# Load data from files, cut and make monochrome pictures
+white = imageio.imread(dir + files[1])
+grey = lambda rgb: np.dot(rgb [..., :3], [0.299, 0.587, 0.114])  
+white = grey(white)
 
-colors = 0 
+files = files[1:]
+
+colors = []
+greypic = []
 
 for i in range (len(files)):
     colors.append(imageio.imread(dir + files[i]))
     colors[i] = colors[i][290:460, 450:560, :]
 
-
-# Make monochrome
-greypic = []
-grey = lambda rgb: np.dot(rgb [..., :3], [0.299, 0.587, 0.114])
-
-for i in colors:   
+    grey = lambda rgb: np.dot(rgb [..., :3], [0.299, 0.587, 0.114])  
     greypic.append(grey(colors[i]))
 
+height = greypic[1].shape [0]
+width = greypic[1].shape [1]
 
-# Colors intensly
-intenseAll = []
-
-for i in colors:
-    height = colors[i].shape [0]
-    width = colors[i].shape [1]
-    intense = 0
-
-    for x in range (width):
-        for y in range (height):
-
-            if gray[y, x] > 3:
-                intense += gray[y, x] 
-    intenseAll.append(intense) 
-
-
-#llll
+# intervals
 red        = np.arange(800, 630, 1).tolist()
 orange     = np.arange(590, 630, 1).tolist() 
 yellow     = np.arange(570, 590, 1).tolist() 
@@ -72,19 +58,22 @@ intervals = [red, orange, yellow, lightgreen, green, blue, darkblue, crimson]
 allAlbedo = []
 
 
-for i in intervals:
+for i in range (len(intervals)):
     whiteIntense = 0
     colorIntense = 0
 
     for x in range (width):
-        for y in intervals[i]:
+        for y in range (len(intervals[i])):
 
-            if white[y, x] > 3:
+            if white[y, x] > 0:
                 whiteIntense += white[y, x] 
-            if colors[i][y, x] > 3:
+            if greypic[i][y, x] > 0:
                 colorIntense += greypic[i][y, x] 
-
-    albedo = colorIntense/whiteIntense
+    print (colorIntense, ' ', whiteIntense)
+    albedo = colorIntense
     allAlbedo.append(albedo)
-    
+print(allAlbedo)
 
+# Save pics
+for i in range (len(greypic)):
+    imageio.imwrite('/home/pi/Repositories/get/12-spectr/DATA/Color_FullSpectr.monochrome{}.png'.format(i), greypic[i].astype(np.uint8), format='png')

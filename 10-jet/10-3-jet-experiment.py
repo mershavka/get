@@ -25,7 +25,7 @@ func.initGPIOjet()
 
 try: 
     data = []
-    #DATE = datetime.datetime.now().strftime("%d.%m.%Y-%H:%M:%S")
+    #DATE = datetime.datetime.now().strftime("%d.%m.%Y-%H.%M.%S")
     ex = 2
     distance = 71
 
@@ -38,6 +38,7 @@ try:
 
     d = int(L/x) # дельта между точками в шагах
     dataFin = []
+    
     for i in range (x):
         data = func.measure(duration)
         mean = sum(data)/len(data)

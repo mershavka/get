@@ -41,7 +41,7 @@ def adc2():
 try:
     
     now = datetime.datetime.now()
-    DATE = now.strftime("%d.%m.%Y-%H:%M:%S")
+    DATE = now.strftime("%d.%m.%Y-%H.%M.%S")
   
     t = 20
     measure = []

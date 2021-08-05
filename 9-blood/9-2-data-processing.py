@@ -22,10 +22,10 @@ DP2 = 64
 tDP2 = 14.8
 num2 = 23
 
-LFN_HC = '08.07.2021-13:26:03_0.009.txt'
-LFN_LC = '08.07.2021-13:26:33_0.009.txt'
-LFN_MR = '08.07.2021-13:27:51_0.009.txt'
-LFN_MF = '08.07.2021-13:29:18_0.009.txt'
+LFN_HC = '08.07.2021-13.26.03_0.009.txt'
+LFN_LC = '08.07.2021-13.26.33_0.009.txt'
+LFN_MR = '08.07.2021-13.27.51_0.009.txt'
+LFN_MF = '08.07.2021-13.29.18_0.009.txt'
 
 # Load data from files
 
@@ -34,12 +34,7 @@ LC = np.loadtxt('/home/pi/Repositories/get/9-blood/DATA/' + LFN_LC)
 MR = np.loadtxt('/home/pi/Repositories/get/9-blood/DATA/' + LFN_MR)
 MF = np.loadtxt('/home/pi/Repositories/get/9-blood/DATA/' + LFN_MF)
 
-# Assigning deltas to variables
-
-delta_HC = float(pathlib.Path(LFN_HC).stem[20:])
-delta_LC = float(pathlib.Path(LFN_LC).stem[20:])
-delta_MR = float(pathlib.Path(LFN_MR).stem[20:])
-delta_MF = float(pathlib.Path(LFN_MF).stem[20:])
+# Assigning deltas to variac
 
 # Smoothing plots
 

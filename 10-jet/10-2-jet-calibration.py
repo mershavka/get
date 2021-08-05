@@ -22,7 +22,7 @@ stepPin = 2
 func.initGPIOjet()
 
 try:
-    DATE = datetime.datetime.now().strftime("%d.%m.%Y-%H:%M:%S")
+    DATE = datetime.datetime.now().strftime("%d.%m.%Y-%H.%M.%S")
     data = func.measure(10)
     
     np.savetxt('/home/pi/Repositories/get/10-jet/DATA/calibration_{}.txt'.format(DATE), data, fmt='%d')
