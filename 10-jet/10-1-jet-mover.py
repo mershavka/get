@@ -15,6 +15,8 @@ directionPin = 27
 enablePin = 14
 stepPin = 2
 
+func.initGPIOjet()
+
 try:
     steps = 0
 
@@ -44,5 +46,4 @@ try:
             steps += n
 
 finally:
-
     func.deinitGPIOjet()

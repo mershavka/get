@@ -2,9 +2,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 import imageio
+from io import BytesIO
 
 # Load and cut image
-pic = imageio.imread('White_StripesSpectr.png')
+pic = imageio.imread('/home/pi/Repositories/get/12-spectr/DATA/StripesSpectr/White_StripesSpectr.png')
 pic = pic[290:460, 450:560, :]
 
 # Make monochrome
@@ -63,3 +64,12 @@ wavelengthsax.set(title = 'Зависимость длины волны от н�
 wavelengthsax.plot(mercurySpectr)
         
 plt.show()
+
+# Save plots and mercurySpectr
+np.savetxt('/home/pi/Repositories/get/12-spectr/DATA/mercurySpectr.txt', mercurySpectr, fmt='%d')
+
+figCalib.savefig('/home/pi/Repositories/get/12-spectr/DATA/calibrationPlot.png')
+wavelengthsfig.savefig('/home/pi/Repositories/get/12-spectr/DATA/mercuryPlot.png')
+
+imageio.imwrite('/home/pi/Repositories/get/12-spectr/DATA/White_StripesSpectr.color.png', pic, format='png')
+imageio.imwrite('/home/pi/Repositories/get/12-spectr/DATA/White_StripesSpectr.monochrome.png', gray.astype(np.uint8), format='png')
