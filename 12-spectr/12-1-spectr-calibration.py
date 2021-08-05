@@ -3,35 +3,63 @@ import matplotlib.pyplot as plt
 import time
 import imageio
 
+# Load and cut image
 pic = imageio.imread('White_StripesSpectr.png')
-
 pic = pic[290:460, 450:560, :]
 
+# Make monochrome
+gray = lambda rgb: np.dot(rgb [..., :3], [0.299, 0.587, 0.114]) 
+gray = gray(pic)    
+
+# Pixel intensly
 height = pic.shape [0]
 width = pic.shape [1]
 print(height, width)
 
-gray = lambda rgb: np.dot(rgb [..., :3], [0.299, 0.587, 0.114]) 
-gray = gray(pic)    
-
 intense = 0
+
 for x in range (width):
-# for x in range (height):
     for y in range (height):
-    # for y in range (width):
+
         if gray[y, x] > 3:
             intense += gray[y, x] 
-            print (x, ' ', y, ' ', intense)
+            print (x, ' ', y, ' ', intense) 
 
-plt.figure (figsize = (5,5))   
-plt.imshow (gray, cmap = plt.get_cmap(name = 'gray')) 
-
+# Mercury calibration
 mercury = [576.96, 546.074, 435.83]
 picture = [136, 91, 21]
 
-plt.scatter(mercury, picture)
+# Polynomial selection
+degree = 2
+polyK = np.polyfit(picture, mercury, degree) # коэф-ы полинома
+polynom = np.poly1d(polyK) # полином
+print(polynom)
 
-# plt.figure (figsize = (5,5))   
-# plt.imshow (pic)
+yvals = np.polyval(polynom, picture)
+mercurySpectr = np.polyval(polynom, np.linspace(0, height, height)) 
+
+# Show monochrome image
+plt.figure (figsize = (5,5))   
+plt.imshow (gray, cmap = plt.get_cmap(name = 'gray'))
+
+
+# Create calibration plot
+figCalib = plt.figure()
+ax = figCalib.add_subplot(111)
+ax.grid(color = 'gray', linestyle = ':')
+ax.set(title = 'Зависимость длины волны от номера пикселя (по высоте)', xlabel = 'Номер пикселя', ylabel = 'Длина волны, нм', label = '')
+
+
+ax.scatter(picture, mercury, label = 'Точки соответствия номеров пикселей длинам волн')
+ax.plot(picture, yvals, label = 'Подобранный полином {} степени'.format(degree))
+ax.legend(loc=1, bbox_to_anchor=(1, 0.15), prop={'size': 9})
+
+# Create DATA plot
+wavelengthsfig = plt.figure()
+wavelengthsax = wavelengthsfig.add_subplot(111)
+wavelengthsax.grid(color = 'gray', linestyle = ':')
+wavelengthsax.set(title = 'Зависимость длины волны от номера пикселя', xlabel = 'Номер пикселя', ylabel = 'Длина волны, нм')
+
+wavelengthsax.plot(mercurySpectr)
         
 plt.show()
