@@ -31,12 +31,12 @@ files[5] = 'Green_FullSpectr.png'
 files[6] = 'Blue_FullSpectr.png'
 files[7] = 'darkBlue_FullSpectr.png'
 files[8] = 'Crimson_FullSpectr.png'
-
-
 print (files)
 
 # Load data from files, cut and make monochrome pictures
+    # White
 white = imageio.imread(dir + 'newDATAspectr/' + files[0])
+white = white[290:460, 450:560, :]
 
 grey = lambda rgb: np.dot(rgb [..., :3], [0.299, 0.587, 0.114])  
 white = grey(white)
@@ -44,6 +44,7 @@ white = grey(white)
 files = files[1:]
 print(files)
 
+    # Colors
 colors = []
 greypic = []
 
@@ -57,17 +58,17 @@ for i in range (len(files)):
 height = greypic[1].shape [0]
 width = greypic[1].shape [1]
 
-# intervals
+# Load intervals (in pixels)
 intervals = []
 
 for i in range (8): 
     interval = np.loadtxt(dir + 'interval_{}'.format(i))
     intervals.append(interval)
 
-
 allAlbedo = []
 
 
+# Calculate intense and albedo of colors
 for i in range (len(intervals)):
     whiteIntense = 0
     colorIntense = 0
@@ -77,16 +78,29 @@ for i in range (len(intervals)):
 
             if white[y, x] > 0:
                 whiteIntense += white[y, x] 
+                
             if greypic[i][y, x] > 0:
                 colorIntense += greypic[i][y, x]
-
-    print (colorIntense, ' ', whiteIntense)
 
     albedo = colorIntense/whiteIntense
     allAlbedo.append(albedo)
 
-print(allAlbedo)
+
+# Create albedo plot
+fig = plt.figure()
+ax = fig.add_subplot(111)           
+ax.grid(color = 'gray', linestyle = ':')
+ax.set(title = 'График зависимости альбедо от длины волны', xlabel = 'Длина волны, нм', ylabel = 'Истиное альбедо')
+
+ax.plot(allAlbedo, label ='')
+ax.legend()
+
+plt.show()
+
+fig.savefig(dir + '/albedoPlot.png')
+
 
 # Save pics
 for i in range (len(greypic)):
     imageio.imwrite(dir + 'Color_FullSpectr.monochrome{}.png'.format(i), greypic[i].astype(np.uint8), format='png')
+imageio.imwrite(dir + 'White_FullSpectr.monochrome.png'.format(i), white.astype(np.uint8), format='png')
