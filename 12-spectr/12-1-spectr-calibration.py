@@ -8,7 +8,7 @@ from io import BytesIO
 dir = 'C:/Users/ksyurko/Desktop/Repositories/get/12-spectr/DATA/'
 
 pic = imageio.imread(dir + 'StripesSpectr/White_StripesSpectr.png')
-pic = pic[290:460, 450:560, :]
+pic = pic[310:443, 468:540, :]
 
 
 # Make monochrome
