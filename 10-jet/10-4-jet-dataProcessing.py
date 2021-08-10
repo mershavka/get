@@ -13,16 +13,16 @@ L = 30 # в мм
 low = 0 #давление в паскалях в атм-е
 high = 51 #давление в паскалях в потоке
 
-dir = '/home/pi/Repositories/get/10-jet/DATA/'
+dir = 'C:/Users/ksyurko/Desktop/Repositories/get/10-jet/'
 
 
 # Soft files by last change
 
-files = os.listdir(dir)
+files = os.listdir(dir + 'DATA/')
 
 for j in range(len(files)):
     for i in range (len(files)-1):
-        if os.stat(dir + files[i+1]).st_mtime < os.stat(dir + files[i]).st_mtime:
+        if os.stat(dir + 'DATA/'+ files[i+1]).st_mtime < os.stat(dir+ 'DATA/' + files[i]).st_mtime:
             a = files[i+1]
             files[i+1] = files[i]
             files[i] = a  
@@ -30,14 +30,14 @@ print(files)
 
 
 # Load data from files
-HP = np.loadtxt(dir + files[8])
-LP = np.loadtxt(dir + files[9])
+HP = np.loadtxt(dir + 'DATA/' + files[8])
+LP = np.loadtxt(dir + 'DATA/' + files[9])
 
 files = files[:8]
 data = []
 
 for i in range (len(files)):
-    data.append(np.loadtxt(dir + files[i]))
+    data.append(np.loadtxt(dir + 'DATA/' + files[i]))
 
 
 # Calculate mean and k
@@ -52,7 +52,7 @@ dataSP = []
 N1 = 20
 
 for i in range (len(data)):
-    dataSP.append(np.convolve(data[i], np.ones((N1,))/N1, mode = 'valid'))
+    dataSP.append(abs(np.convolve(data[i], np.ones((N1,))/N1, mode = 'valid') - 55))
 
 
 # Centering and creating lengthlines 
@@ -62,6 +62,9 @@ num = len(data[0])-N1+1 # num of elements in smoothed plots
 for i in range (len(dataSP)):
     lengths.append(np.linspace(-L/2, L/2, num) - list(dataSP[i]).index(np.max(dataSP[i]))*L/(num)+15)
 
+lengths[0] = (np.linspace(-L/2, L/2, num) - list(dataSP[0]).index(np.max(dataSP[0]))*L/(num)+14)
+lengths[1] = (np.linspace(-L/2, L/2, num) - list(dataSP[1]).index(np.max(dataSP[1]))*L/(num)+14)
+lengths[3] = (np.linspace(-L/2, L/2, num) - list(dataSP[3]).index(np.max(dataSP[3]))*L/(num)+14.5)
 
 # Calculate jet flow
 Q = [0]*8
@@ -69,7 +72,7 @@ Q = [0]*8
 for j in range (len(dataSP)):
 
     for i in range(len(dataSP[j])):
-        Q[j] += abs ( (0.001*L/len(dataSP[j]) * ((0.001*L/len(dataSP[j])*i) * ((k*dataSP[j][i]-low)*2/1.27)**(1/2) )))
+        Q[j] += abs ( (0.001*20/len(dataSP[j]) * ((0.001*20/len(dataSP[j])*i) * ((abs(k*dataSP[j][i]-low)*2/1.27))**(1/2) )))
 
 Q = [i*1.27*np.pi for i in Q]
 
@@ -108,6 +111,6 @@ plt.show()
 
 
 #Save plots
-fig.savefig('/home/pi/Repositories/get/10-jet/10-jet-Plots/all.png')
-fig3D.savefig('/home/pi/Repositories/get/10-jet/10-jet-Plots/3Dall.png')
-figJet.savefig('/home/pi/Repositories/get/10-jet/10-jet-Plots/Jet.png')
+fig.savefig(dir + '10-jet-Plots/all.png')
+fig3D.savefig(dir + '10-jet-Plots/3Dall.png')
+figJet.savefig(dir + '10-jet-Plots/Jet.png')

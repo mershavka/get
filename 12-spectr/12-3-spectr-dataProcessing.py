@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 import time
 import os
 import imageio
-from io import BytesIO
 
 
 # Enter directory of files
@@ -109,6 +108,7 @@ for i in range (len(colors)):
     
     for y in range (height):
         OSI = 0
+        
         for x in range (width):
                 
             if sum(colors[i][y, x, :]) > 0:
