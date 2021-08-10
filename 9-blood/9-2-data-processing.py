@@ -3,9 +3,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import pathlib
-import plotPressure as pp
+import bloodFunctions as func
 
 # Enter high and low value of calibration pressure
+dir = 'C:/Users/ksyurko/Desktop/Repositories/get/9-blood/DATA/'
 
 high = 160
 low = 40
@@ -29,12 +30,16 @@ LFN_MF = '08.07.2021-13.29.18_0.009.txt'
 
 # Load data from files
 
-HC = np.loadtxt('/home/pi/Repositories/get/9-blood/DATA/' + LFN_HC)
-LC = np.loadtxt('/home/pi/Repositories/get/9-blood/DATA/' + LFN_LC)
-MR = np.loadtxt('/home/pi/Repositories/get/9-blood/DATA/' + LFN_MR)
-MF = np.loadtxt('/home/pi/Repositories/get/9-blood/DATA/' + LFN_MF)
+HC = np.loadtxt(dir + LFN_HC)
+LC = np.loadtxt(dir + LFN_LC)
+MR = np.loadtxt(dir + LFN_MR)
+MF = np.loadtxt(dir + LFN_MF)
 
 # Assigning deltas to variac
+delta_HC = float(pathlib.Path(LFN_HC).stem[20:])
+delta_LC = float(pathlib.Path(LFN_LC).stem[20:])
+delta_MR = float(pathlib.Path(LFN_MR).stem[20:])
+delta_MF = float(pathlib.Path(LFN_MF).stem[20:])
 
 # Smoothing plots
 
@@ -85,11 +90,12 @@ puls2 = round(60 / (tDP2 - tSP2) * num2)
 
 # Create plots
 
-pp.plotPressure(MR_Smothed, timelineMR, SP1, tSP1, DP1, tDP1, k)
-pp.plotPressure(MF_Smothed, timelineMF, SP2, tSP2, DP2, tDP2, k)
+func.plotPressure(MR_Smothed, timelineMR, SP1, tSP1, DP1, tDP1, k)
+func.plotPressure(MF_Smothed, timelineMF, SP2, tSP2, DP2, tDP2, k)
 
-pp.plotCalibration(HC_Smothed, timelineHC, high, k)
-pp.plotCalibration(LC_Smothed, timelineLC, low, k)
+func.plotCalibration(HC_Smothed, timelineHC, high, k)
+func.plotCalibration(LC_Smothed, timelineLC, low, k)
 
-pp.plotPuls(pulsWave1, timelinePuls1, puls1, k)
-pp.plotPuls(pulsWave2, timelinePuls2, puls2, k)
+func.plotPuls(pulsWave1, timelinePuls1, puls1, k)
+func.plotPuls(pulsWave2, timelinePuls2, puls2, k)
+plt.show()

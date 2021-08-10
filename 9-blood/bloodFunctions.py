@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import pathlib
 
+dir = 'C:/Users/ksyurko/Desktop/Repositories/get/9-blood/DATA/'
+
 def plotPressure(measure, timeline, pSP, tSP, pDP, tDP, k):
 
     fig = plt.figure()
@@ -23,7 +25,7 @@ def plotPressure(measure, timeline, pSP, tSP, pDP, tDP, k):
     ax.text(tDP + 0.5, pDP, 'DP = {}'.format(pDP))
     ax.legend()
     
-    fig.savefig('/home/pi/Repositories/9-Plots/Smoothed_plot_measure_{}.png'.format(pSP))
+    fig.savefig(dir + 'Smoothed_plot_measure_{}.png'.format(pSP))
 
 def plotCalibration(measure, timeline, level, k):
 
@@ -38,7 +40,7 @@ def plotCalibration(measure, timeline, level, k):
 
     ax.plot(timeline, k*measure, label ='')
     
-    fig.savefig('/home/pi/Repositories/9-Plots/Smoothed_plot_calibration_{}.png'.format(level))
+    fig.savefig(dir + 'Smoothed_plot_calibration_{}.png'.format(level))
 
 def plotPuls(measure, timeline, puls, k):
 
@@ -56,4 +58,4 @@ def plotPuls(measure, timeline, puls, k):
     ax.plot(timeline, measure, label = 'Пульс {}'.format(puls))
     ax.legend()
 
-    fig.savefig('/home/pi/Repositories/9-Plots/Puls_wave_{}'.format(puls))
+    fig.savefig(dir + 'Puls_wave_{}'.format(puls))
