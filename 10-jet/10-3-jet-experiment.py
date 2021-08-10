@@ -29,10 +29,10 @@ try:
     ex = 2
     distance = 71
 
-    a = 530 #колво шагов в длине калибровки (30mm)
-    l = 30 #калибровка длина
+    a = 695 #колво шагов в длине калибровки (30mm)
+    l = 40 #калибровка длина
 
-    duration = 0.1 # время записи данных  фикс 
+    duration = 1 # время записи данных  фикс 
     x = 100  # кол-во точек фикс
     L = a*30/l # длина 30мм в шагах
 
@@ -54,6 +54,8 @@ try:
 
     for i in range (x):
         func.stepBackward(d)
+    func.stepBackward(15)
+
 
     fig = plt.figure()
     ax = fig.add_subplot(111)
@@ -63,8 +65,6 @@ try:
     ax.plot(dataFin)
 
     plt.show()
-    time.sleep(5)
-    plt.close()
     fig.savefig('/home/pi/Repositories/get/10-jet/10-jet-Plots/Ex-plot{}.png'.format(distance))
 
 finally:
