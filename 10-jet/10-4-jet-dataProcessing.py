@@ -9,15 +9,14 @@ from mpl_toolkits.mplot3d import Axes3D
 
 
 # Enter variables and directory of files
-L = 0.03 # в м
-low = 0 #давление в паскалях в атм-е
-high = 51 #давление в паскалях в потоке
+L = 0.03 
+low = 0 
+high = 51
 
 dir = 'C:/Users/ksyurko/Desktop/Repositories/get/10-jet/'
 
 
 # Soft files by last change
-
 files = os.listdir(dir + 'DATA/')
 
 for j in range(len(files)):
@@ -54,19 +53,19 @@ N1 = 20
 for i in range (len(data)):
     dataSP.append((np.convolve(data[i], np.ones((N1,))/N1, mode = 'valid') - 78))
 
-data = data - 240/k
+data = data - 240/k # Смещение на ноль по оси Oy
 
 # Centering and creating lengthlines 
 lengths = []
 num = len(data[0])-N1+1 # num of elements in smoothed plots
-num = 100
+num = len(data[0]) # num of elements in norm plots
 
+# Смещение на ноль по оси Ox
 for i in range (len(data)):
     lengths.append( np.linspace(-L/2, L/2, num) - list(dataSP[i]).index(np.max(dataSP[i]))*L/(num) + 0.0125 )
 
 lengths[0] = (np.linspace(-L/2, L/2, num) - list(dataSP[0]).index(np.max(dataSP[0]))*L/(num) + 0.011)
 lengths[1] = (np.linspace(-L/2, L/2, num) - list(dataSP[1]).index(np.max(dataSP[1]))*L/(num) + 0.011)
-
 
 
 # Calculate jet flow
@@ -87,7 +86,6 @@ ax.grid(color = 'gray', linestyle = ':')
 ax.set(title = 'Центрированный график зависимости P(x)', xlabel = 'x, м', ylabel = 'Давление P, Па')
 
 for i in range(len(dataSP)):
-
     ax.plot(lengths[i], k*data[i], label = '{}mm'.format(10*i+1))
 
 ax.legend()

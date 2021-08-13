@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 import jetFunctions as func
 
-leds = [21, 20, 16, 12, 7, 8, 25, 24]
+# Setting pins
 dac = [26, 19, 13, 6, 5, 11, 9, 10]
 
 bits = len(dac)
@@ -25,20 +25,21 @@ func.initGPIOjet()
 
 try: 
     data = []
-    #DATE = datetime.datetime.now().strftime("%d.%m.%Y-%H.%M.%S")
-    ex = 2
     distance = 71
 
-    a = 695 #колво шагов в длине калибровки (30mm)
-    l = 40 #калибровка длина
+    l = 40 #длина калибровки, мм
+    a = 695 #колво шагов в длине калибровки (40 мм)
 
-    duration = 1 # время записи данных  фикс 
-    x = 100  # кол-во точек фикс
-    L = a*30/l # длина 30мм в шагах
+    duration = 1 # время записи данных 
+    b = 30 # длина дистанции
+    x = 100  # кол-во точек
+    L = a*b/l # длина дистанции в шагах
 
     d = int(L/x) # дельта между точками в шагах
+
     dataFin = []
     
+    # Experiment
     for i in range (x):
         data = func.measure(duration)
         mean = sum(data)/len(data)
@@ -46,17 +47,18 @@ try:
         time.sleep(0.01)
 
         print(i)
+
         func.stepForward(d)
-        
+    
+    # Data storage
     np.savetxt('/home/pi/Repositories/get/10-jet/DATA/{}mm.txt'.format(distance), dataFin, fmt='%d')
 
-    time.sleep(5)
-
+    # Return to starting position
     for i in range (x):
         func.stepBackward(d)
     func.stepBackward(15)
 
-
+    # Create experiment plot
     fig = plt.figure()
     ax = fig.add_subplot(111)
     ax.grid(color = 'gray', linestyle = ':')
@@ -68,5 +70,4 @@ try:
     fig.savefig('/home/pi/Repositories/get/10-jet/10-jet-Plots/Ex-plot{}.png'.format(distance))
 
 finally:
-
     func.deinitGPIOjet()

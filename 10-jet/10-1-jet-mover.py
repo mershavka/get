@@ -2,56 +2,33 @@ import RPi.GPIO as GPIO
 import time
 import jetFunctions as func
 
-leds = [21, 20, 16, 12, 7, 8, 25, 24]
-dac = [26, 19, 13, 6, 5, 11, 9, 10]
-motor = [15, 14, 3, 7]
+directionPin = 2
+enablePin = 3
+stepPin = 14
 
-bits = len(dac)
-levels = 2 ** bits
-dV = 3.3 / levels
+steps = 0
 
-comparator = 4 
-troykaVoltage = 17
-directionPin = 27
-enablePin = 14
-stepPin = 2
+while True:
+    n = input('Enter number of steps: ')
 
-motorPhases = [
-    [1, 1, 0, 0],
-    [0, 1, 1, 0],
-    [0, 0, 1, 1],
-    [1, 0, 0, 1]
-]
+    if n == 's':
+        print(steps, ' steps')
 
-func.initGPIOjet()
+    elif n == 'z':
+        steps = 0
+        print(steps, ' steps')
 
-try:
-    steps = 0
+    elif n == 'q':
+        print(steps, ' steps')
+        break
 
-    while True:
-        n = input('Enter number of steps: ')
+    else:
 
-        if n == 's':
-            print(steps, ' steps')
+        n = int(n)
+        if n < 0:
+            func.stepBackward(abs(n))
 
-        elif n == 'z':
-            steps = 0
-            print(steps, ' steps')
+        if n > 0:
+            func.stepForward(n)
 
-        elif n == 'q':
-            print(steps, ' steps')
-            break
-
-        else:
-
-            n = int(n)
-            if n < 0:
-                func.stepBackward(abs(n))
-
-            if n > 0:
-                func.stepForward(n)
-
-            steps += n
-
-finally:
-    func.deinitGPIOjet()
+        steps += n
