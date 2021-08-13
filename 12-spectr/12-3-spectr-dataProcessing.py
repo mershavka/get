@@ -1,17 +1,31 @@
-from os import read
 import numpy as np
 import matplotlib.pyplot as plt
-import time
-import os
 import imageio
+
+import time
+
+import os
+from os import read
 
 
 # Enter directory of files
-dir = 'C:/Users/ksyurko/Desktop/Repositories/get/12-spectr/DATA/'
+dir = 'C:/Users/ksyurko/Desktop/Repositories/get/12-spectr/DATA/newDATAspectr/'
+
+
+# # Soft files by last change
+# files = os.listdir(dir + 'DATA/')
+# 
+# for j in range(len(files)):
+#    for i in range (len(files)-1):
+#         if os.stat(dir + 'DATA/'+ files[i+1]).st_mtime < os.stat(dir + 'DATA/' + files[i]).st_mtime:
+#             a = files[i+1]
+#             files[i+1] = files[i]
+#             files[i] = a  
+# print(files)
 
 
 # Soft files by colors
-files = os.listdir(dir + 'newDATAspectr/')
+files = os.listdir(dir)
 
 files[0] = 'White_FullSpectr.png'
 files[1] = 'Red_FullSpectr.png'
@@ -24,28 +38,23 @@ files[7] = 'darkBlue_FullSpectr.png'
 files[8] = 'Crimson_FullSpectr.png'
 print (files)
 
-# Load data from files, cut and make monochrome pictures
+
+# Load data from files and cut pictures
 colors = []
 
 for i in range (len(files)):
-    colors.append(imageio.imread(dir + 'newDATAspectr/' + files[i]))
+    colors.append(imageio.imread(dir + files[i]))
     colors[i] = colors[i][310:443, 468:540, :]
 
 height = colors[1].shape [0]
 width = colors[1].shape [1]
 
-# Load intervals (in pixels)
-intervals = []
 
-for i in range (8): 
-    interval = np.loadtxt(dir + 'interval_{}'.format(i))
-    intervals.append(interval)
-
+# Calculate Intensity and albedo of colors
 allColorsIL = []
 whiteIL = []
 allColorsAL = []
 
-# Calculate Intensity and albedo of colors
 for i in range (len(colors)):
     oneColorIL = []
     oneColorAL = []

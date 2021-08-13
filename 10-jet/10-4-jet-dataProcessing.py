@@ -1,11 +1,14 @@
 import time
+
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+from mpl_toolkits.mplot3d import Axes3D
+
 import pathlib
 import os
+
 import jetFunctions as pp
-from mpl_toolkits.mplot3d import Axes3D
 
 
 # Enter variables and directory of files

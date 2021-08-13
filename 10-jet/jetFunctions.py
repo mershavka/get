@@ -1,9 +1,12 @@
 import RPi.GPIO as GPIO
+
 import time
 import datetime
+
 import numpy as np
 
-# # Enter variables and directory of files
+
+# Setting pins
 dac = [26, 19, 13, 6, 5, 11, 9, 10]
 
 bits = len(dac)
@@ -16,7 +19,7 @@ directionPin = 2
 enablePin = 3
 stepPin = 14
 
-
+# Functions jet
 def num2pins(pins, value):
     GPIO.output(pins, [int(i) for i in bin(value)[2:].zfill(bits)])
 
@@ -82,7 +85,7 @@ def stepBackward(n):
     
 def measure(duration): 
     
-    DATE = datetime.datetime.now().strftime("%d.%m.%Y-%H:%M:%S")
+    DATE = datetime.datetime.now().strftime("%d.%m.%Y-%H.%M.%S")
     data = []
     value = 0
     
