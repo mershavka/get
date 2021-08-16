@@ -14,9 +14,9 @@ import jetFunctions as pp
 # Enter variables and directory of files
 L = 0.03 
 low = 0 
-high = 51
+high = 68
 
-dir = 'C:/Users/ksyurko/Desktop/Repositories/get/10-jet/'
+dir = 'C:/Users/yurko/Desktop/Repositories/get/10-jet/'
 
 
 # Soft files by last change

@@ -9,7 +9,7 @@ from os import read
 
 
 # Enter directory of files
-dir = 'C:/Users/ksyurko/Desktop/Repositories/get/12-spectr/DATA/newDATAspectr/'
+dir = 'C:/Users/yurko/Desktop/Repositories/get/12-spectr/DATA/newDATAspectr/'
 
 
 # # Soft files by last change
@@ -19,7 +19,7 @@ dir = 'C:/Users/ksyurko/Desktop/Repositories/get/12-spectr/DATA/newDATAspectr/'
 #    for i in range (len(files)-1):
 #         if os.stat(dir + 'DATA/'+ files[i+1]).st_mtime < os.stat(dir + 'DATA/' + files[i]).st_mtime:
 #             a = files[i+1]
-#             files[i+1] = files[i]
+#             files[d+1] = files[d]
 #             files[i] = a  
 # print(files)
 
