@@ -9,7 +9,7 @@ from io import BytesIO
 
 # Enter directory of files
 dir = 'C:/Users/ksyurko/Desktop/Repositories/get/12-spectr/DATA/'
-
+dir
 
 # Soft files by last change
 files = os.listdir(dir + 'newDATAspectr/')
@@ -57,13 +57,6 @@ for i in range (len(files)):
 
 height = greypic[1].shape [0]
 width = greypic[1].shape [1]
-
-# Load intervals (in pixels)
-intervals = []
-
-for i in range (8): 
-    interval = np.loadtxt(dir + 'interval_{}'.format(i))
-    intervals.append(interval)
 
 allAlbedo = []
 

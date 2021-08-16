@@ -35,16 +35,6 @@ yvals = np.polyval(polynom, picture)
 mercurySpectr = np.polyval(polynom, np.linspace(0, height, height)) 
 
 
-# Make intervals lists
-intervals = [[630, 800], 
-            [590, 630], 
-            [570, 590], 
-            [550, 570], 
-            [510, 550], 
-            [480, 510], 
-            [450, 480], 
-            [300, 450]] 
-
 for i in range (len(intervals)):
     xvals = np.polyval(polynom, np.linspace(intervals[i][0], intervals[i][1], intervals[i][1]-intervals[i][0]))
     print(xvals.astype(np.int32))
