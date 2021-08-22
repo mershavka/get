@@ -8,9 +8,9 @@ import os
 from os import read
 
 # Enter directory
-dir1 = 'C:/Users/yurko/Desktop/Repositories/get/12-spectr/DATA/newDATAspectr/'
-dir2 = 'C:/Users/yurko/Desktop/Repositories/get/12-spectr/DATA/Intensity/'
-dir3 = 'C:/Users/yurko/Desktop/Repositories/get/12-spectr/DATA/Intensity_plots/'
+dir1 = 'C:/Users/user/Desktop/ОИП/Repositories/get/12-spectr/DATA/spectr_photos/'
+dir2 = 'C:/Users/user/Desktop/ОИП/Repositories/get/12-spectr/DATA/intensity/'
+dir3 = 'C:/Users/user/Desktop/ОИП/Repositories/get/12-spectr/12-spectr-plots/'
 
 rainbow = ['black', 'red', 'orange', 'yellow', 'green', 'lightgreen', 'blue', 'darkblue', 'crimson', 'grey']
 
@@ -19,7 +19,7 @@ files = os.listdir(dir1)
 
 # for j in range(len(files)):
 #     for i in range (len(files)-1):
-#         if os.stat(dir+ 'newDATAspectr/' + files[i+1]).st_mtime < os.stat(dir + 'newDATAspectr/'+ files[i]).st_mtime:
+#         if os.stat(dir+ 'spectr_photos/' + files[i+1]).st_mtime < os.stat(dir + 'spectr_photos/'+ files[i]).st_mtime:
 #             a = files[i+1]
 #             files[i+1] = files[i]
 #             files[i] = a  
@@ -88,6 +88,6 @@ for i in range (len(allColorsIL)):
     ax.legend()
     
 
-    fig.savefig(dir3 + '/Intensity_plot_{}.png'.format(rainbow[i]))
+    fig.savefig(dir3 + '/intensity_{}.png'.format(rainbow[i]))
 
 plt.show() 
