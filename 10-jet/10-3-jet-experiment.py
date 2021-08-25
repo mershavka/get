@@ -11,10 +11,6 @@ import jetFunctions as func
 # Setting pins
 dac = [26, 19, 13, 6, 5, 11, 9, 10]
 
-bits = len(dac)
-levels = 2 ** bits
-dV = 3.3 / levels
-
 comparator = 4 
 troykaVoltage = 17
 directionPin = 27
