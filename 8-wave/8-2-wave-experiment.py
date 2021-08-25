@@ -1,6 +1,5 @@
 import RPi.GPIO as GPIO
 
-
 import time
 import datetime
 
@@ -10,15 +9,9 @@ import matplotlib.pyplot as plt
 import waveFunctions as func
 
 # Setting pins
-dac = [26, 19, 13, 6, 5, 11, 9, 10]
-
-bits = len(dac)
-levels = 2 ** bits
-dV = 3.3 / levels
-
+dac = [26, 19, 13, 6, 5, 11, 9, 10]s
 comparator = 4 
 troykaVoltage = 17
-
 button = 22
 
 func.initGPIOwave()       

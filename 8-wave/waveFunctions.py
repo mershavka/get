@@ -7,10 +7,6 @@ import matplotlib.ticker as ticker
 
 dac = [26, 19, 13, 6, 5, 11, 9, 10]
 
-bits = len(dac)
-levels = 2 ** bits
-dV = 3.3 / levels
-
 comparator = 4 
 troykaVoltage = 17
 button = 22
@@ -18,16 +14,20 @@ button = 22
 
 def initGPIOwave():
     GPIO.setmode(GPIO.BCM)
-    GPIO.setup(leds + dac, GPIO.OUT)
+    GPIO.setup(dac, GPIO.OUT)
     GPIO.setup(troykaVoltage, GPIO.OUT)
     GPIO.setup(comparator, GPIO.IN)
     GPIO.setup(button, GPIO.IN)
 
-    GPIO.output(troykaVoltage, 1)
+
+def deinitGPIOwave():
+    GPIO.output(troykaVoltage, 0)
+    GPIO.output(dac, 0)
+    GPIO.cleanup()
 
 
 def num2pins(pins, value):
-    GPIO.output(pins, [int(i) for i in bin(value)[2:].zfill(bits)])
+    GPIO.output(pins, [int(i) for i in bin(value)[2:].zfill(len(dac))])
 
 
 def adc2():
@@ -59,12 +59,6 @@ def measure(duration):
         data.append(value)
         
     return data
-
-
-def deinitGPIOwave():
-    GPIO.output(troykaVoltage, 0)
-    GPIO.output(leds + dac, 0)
-    GPIO.cleanup()
 
 
 def softFiles(files):
