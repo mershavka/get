@@ -28,7 +28,7 @@ try:
             data = func.measure(20) # Measure
             break
 
-    # Saving data
+    # Data storage
     DATE = datetime.datetime.now().strftime("%d.%m.%Y-%H.%M.%S")        
     np.savetxt('/home/pi/Repositories/get/8-wave/DATA/{}.txt'.format(DATE), data, fmt='%d')
 

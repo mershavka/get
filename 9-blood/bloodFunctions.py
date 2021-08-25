@@ -1,7 +1,9 @@
 import time
+
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+
 import pathlib
 
 dir = 'C:/Users/ksyurko/Desktop/Repositories/get/9-blood/DATA/'
@@ -21,13 +23,13 @@ def deinitGPIOblood():
     GPIO.output(dac, 0)
     GPIO.output(troykaVoltage, 0)
     GPIO.cleanup()
-    
+
 
 def num2pins(pins, value):
     GPIO.output(pins, [int(i) for i in bin(value)[2:].zfill(len(dac))])
 
 
-def adc2():
+def adc():
 
     timeout = 0.001
     value = 128

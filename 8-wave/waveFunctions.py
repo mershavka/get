@@ -1,6 +1,6 @@
-import RPi.GPIO as GPIO
 import time
 import datetime
+
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
@@ -30,7 +30,7 @@ def num2pins(pins, value):
     GPIO.output(pins, [int(i) for i in bin(value)[2:].zfill(len(dac))])
 
 
-def adc2():
+def adc():
     timeout = 0.001
     value = 128
     delta = 128
@@ -55,7 +55,7 @@ def measure(duration):
     start = time.time()
     
     while time.time() - start <= duration:
-        value = adc2()
+        value = adc()
         data.append(value)
         
     return data

@@ -1,9 +1,13 @@
 import RPi.GPIO as GPIO
+
 import time
 import datetime
+
 import numpy as np
+
 import bloodFunctions as func
 
+# Setting pins
 dac = [26, 19, 13, 6, 5, 11, 9, 10]
 
 comparator = 4 
@@ -16,7 +20,7 @@ try:
     now = datetime.datetime.now()
     DATE = now.strftime("%d.%m.%Y-%H.%M.%S")
   
-    t = 20
+    duration = 20
     measure = []
     value = 0
     
@@ -24,12 +28,13 @@ try:
 
     GPIO.output(troykaVoltage, 1)
 
-    while time.time() - start <= t:
-        value = func.adc2()
-        measure.append(value)
+    while time.time() - start <= duration:
+        value = func.adc()
+        measure.append(value) # measure
 
-    delta = round(t / int(len(measure)), 3)
+    delta = round(duration/int(len(measure)), 3)
     
+    # Data storage
     np.savetxt('/home/pi/Repositories/get/9-blood/FINAL/DATA/{}_{}.txt'.format(DATE, delta), measure, fmt='%d')
     print('Done! Files already saved!')
 

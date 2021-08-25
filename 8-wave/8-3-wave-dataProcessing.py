@@ -1,6 +1,6 @@
 import time
-import numpy as np
 
+import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 
@@ -23,7 +23,7 @@ print(files)
 
 
 # Load data from files
-    # data
+    # main data
 data = np.loadtxt(dir + files[6]) 
 files = files[:5]
 
@@ -42,6 +42,7 @@ for i in calibrations:
 
 
 # Polynomial selection
+degree = 4
 yvals = func.polynom(adc, levels, degree)
 dataP = func.polynom(data, levels, degree)
 

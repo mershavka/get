@@ -67,6 +67,8 @@ try:
     ax.plot(dataFin)
 
     plt.show()
+
+    # Save plot
     fig.savefig('/home/pi/Repositories/get/10-jet/10-jet-Plots/Ex-plot{}.png'.format(distance))
 
 finally:
