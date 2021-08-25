@@ -1,5 +1,10 @@
+import RPi.GPIO as GPIO
+
 import time
 import datetime
+
+import pathlib
+import os
 
 import numpy as np
 import matplotlib.pyplot as plt

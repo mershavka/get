@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import waveFunctions as func
 
 # Setting pins
-dac = [26, 19, 13, 6, 5, 11, 9, 10]s
+dac = [26, 19, 13, 6, 5, 11, 9, 10]
 comparator = 4 
 troykaVoltage = 17
 button = 22
@@ -30,7 +30,7 @@ try:
 
     # Data storage
     DATE = datetime.datetime.now().strftime("%d.%m.%Y-%H.%M.%S")        
-    np.savetxt('/home/pi/Repositories/get/8-wave/DATA/{}.txt'.format(DATE), data, fmt='%d')
+    np.savetxt('/home/pi/Desktop/Repositories/get/8-wave/DATA/{}.txt'.format(DATE), data, fmt='%d')
 
     # Ceate plot
     fig = plt.figure()
@@ -43,7 +43,7 @@ try:
     plt.show()
 
     # Save plot
-    fig.savefig('/home/pi/Repositories/8-wave-Plots/wave.png')
+    fig.savefig('/home/pi/Desktop/Repositories/get/8-wave/DATA/wave.png')
 
 finally:
     func.deinitGPIOwave()

@@ -23,7 +23,7 @@ try:
     data = func.measure(10) # measure
     
     # Data storage
-    np.savetxt('/home/pi/Repositories/get/8-wave/DATA/{}.txt'.format(DATE), data, fmt='%d')
+    np.savetxt('/home/pi/Desktop/Repositories/get/8-wave/DATA/{}.txt'.format(DATE), data, fmt='%d')
     print('Done! Files already saved!')
 
 finally:

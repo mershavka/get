@@ -11,20 +11,27 @@ import waveFunctions as func
 
 
 # Enter variables and directory of files
-dir = '/home/pi/Repositories/get/8-wave/DATA/'
+dir = '/home/pi/Desktop/Repositories/get/8-wave/DATA/'
 
 levels = np.linspace(20, 100, 5)
 
 
 # Soft files by last change
 files = os.listdir(dir)
-files = func.softFiles(files)
+for j in range(len(files)):
+
+    for i in range (len(files)-1):
+
+        if os.stat(dir + files[i+1]).st_mtime < os.stat(dir + files[i]).st_mtime:
+            a = files[i+1]
+            files[i+1] = files[i]
+            files[i] = a
 print(files)
 
 
 # Load data from files
     # main data
-data = np.loadtxt(dir + files[6]) 
+data = np.loadtxt(dir + files[5]) 
 files = files[:5]
 
     # calibrations data
@@ -32,7 +39,7 @@ calibrations = []
 
 for i in range (len(files)):
     calibrations.append(np.loadtxt(dir + files[i]))
-
+print(calibrations)
 
 # Calculate mean, create list of dots
 adc = []
