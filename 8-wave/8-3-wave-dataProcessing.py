@@ -11,9 +11,7 @@ import waveFunctions as func
 
 
 # Enter variables and directory of files
-dir = '/home/pi/Desktop/Repositories/get/8-wave/DATA/'
-
-levels = np.linspace(20, 100, 5)
+dir = 'C:/Users/User/Documents/Repositories/get/8-wave/DATA/'
 
 
 # Soft files by last change
@@ -39,18 +37,21 @@ calibrations = []
 
 for i in range (len(files)):
     calibrations.append(np.loadtxt(dir + files[i]))
-print(calibrations)
+
 
 # Calculate mean, create list of dots
 adc = []
 
-for i in calibrations:
+for i in range (len(calibrations)):
     adc.append( sum(calibrations[i]) / len(calibrations[i]) )
 
 
+levels = np.linspace(0, len(data), len(data))
+levels1 = np.linspace(20, 100, 5)
+
 # Polynomial selection
 degree = 4
-yvals = func.polynom(adc, levels, degree)
+yvals = func.polynom(adc, levels1, degree)
 dataP = func.polynom(data, levels, degree)
 
 
@@ -60,7 +61,7 @@ for i in range(len(calibrations)):
 
 
 # Create polynom plot (calibration)
-func.polynomPLot(levels, adc, yvals, degree)
+func.polynomPlot(levels, adc, yvals, degree)
 
 
 # Create DATA plot

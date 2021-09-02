@@ -1,4 +1,4 @@
-import RPi.GPIO as GPIO
+# import RPi.GPIO as GPIO
 
 import time
 import datetime
@@ -100,7 +100,7 @@ def polynomPlot(x, y, yvals, degree):
 
     plt.show()
 
-    fig.savefig('/home/pi/Repositories/get/8-wave/8-wave-plots/WaveCalibration.png')
+    fig.savefig('C:/Users/User/Documents/Repositories/get/8-wave/8-wave-plots//WaveCalibration.png')
     
 
 def wavePlot(data):
@@ -117,7 +117,7 @@ def wavePlot(data):
 
     plt.show()
 
-    fig.savefig('/home/pi/Repositories/get/8-wave/8-wave-plots/FinalWave.png')
+    fig.savefig('C:/Users/User/Documents/Repositories/get/8-wave/8-wave-plots/FinalWave.png')
 
 
 def calibrationPlots(measure, level):
@@ -129,4 +129,4 @@ def calibrationPlots(measure, level):
 
     ax.plot(measure)
 
-    fig.savefig('/home/pi/Repositories/get/8-wave/8-wave-plots/calibrationPlot_{}.png'.format(level))
+    fig.savefig('C:/Users/User/Documents/Repositories/get/8-wave/8-wave-plots/calibrationPlot_{}.png'.format(level))

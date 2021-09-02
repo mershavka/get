@@ -10,4 +10,5 @@ camera.rotation = 180
 time.sleep(1)
 
 camera.capture('/home/pi/Repositories/get/12-spectr/DATA/newDATAspectr/{}_{}.png'.format(photo, lamp))
-print('Done! You can enjoy the photo)')
+print('Done! Now you can enjoy the photo!)')
+
