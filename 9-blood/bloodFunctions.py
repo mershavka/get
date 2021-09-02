@@ -51,11 +51,8 @@ def plotPressure(measure, timeline, pSP, tSP, pDP, tDP, k):
 
     fig = plt.figure()
     ax = fig.add_subplot(111)
-
-    ax.xaxis.set_major_locator(ticker.MultipleLocator(5.0))
-    ax.xaxis.set_minor_locator(ticker.MultipleLocator(1.0))
-    ax.grid(which = 'major', color = 'black')           
-    ax.grid(which = 'minor', color = 'gray', linestyle = ':')
+              
+    ax.grid(color = 'gray', linestyle = ':')
     ax.set(title = 'График зависимости P(t)', xlabel = 'Время, с', ylabel = 'Давление, мм.рт.ст.')
 
     ax.plot(timeline, k*measure, label ='')
