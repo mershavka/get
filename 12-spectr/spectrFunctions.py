@@ -9,6 +9,8 @@ from os import read
 
 def loadData(dir):
     files = os.listdir(dir)
+    print(files)
+
     colors = []
 
     for i in range (len(files)):
@@ -21,7 +23,7 @@ def cutpic(picture, y1, y2, x1, x2):
 
     return picture
 
-def polynom(stripes, y1, y2, degree):
+def polynom(stripes, dots, degree):
     mercury = [576.96, 546.074, 435.83]
 
     polyK = np.polyfit(stripes, mercury, degree) # коэф-ы полинома
@@ -29,9 +31,9 @@ def polynom(stripes, y1, y2, degree):
     print(polynom)
 
     yvals = np.polyval(polynom, stripes)
-    mercurySpectr = np.polyval(polynom, np.linspace(1, y1-y2, y1-y2)) # Ox for all plots in wavelengths
+    mercurySpectr = np.polyval(polynom, np.linspace(1, dots[1] - dots[0], dots[1] - dots[0])) # Ox for all plots in wavelengths
 
-    return yvals, mercurySpectr
+    return mercurySpectr
 
 
 def intensity(color, num):
