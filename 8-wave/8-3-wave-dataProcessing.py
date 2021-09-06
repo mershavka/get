@@ -61,7 +61,7 @@ for i in range(len(calibrations)):
 
 
 # Create polynom plot (calibration)
-func.polynomPlot(levels, adc, yvals, degree)
+func.polynomPlot(levels1, adc, yvals, degree)
 
 
 # Create DATA plot
