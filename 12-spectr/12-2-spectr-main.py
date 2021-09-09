@@ -26,4 +26,15 @@ for i in range (len(colors)):
 wavelength = func.polynom(stripes, dots, 3)
 
 # Calculate intensities
-for 
+intensities = []
+
+for i in range (len(colors)):
+    intensities.append(func.intensity())
+
+# Calculate albedos
+intensities = []
+
+for i in range (len(colors)):
+    intensities.append(func.albedo())
+
+
