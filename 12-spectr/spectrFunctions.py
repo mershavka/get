@@ -6,6 +6,7 @@ import imageio
 
 import os
 from os import read
+import pathlib
 
 def loadData(dir):
     files = os.listdir(dir)
@@ -18,10 +19,12 @@ def loadData(dir):
 
     return colors
 
-def cutpic(picture, y1, y2, x1, x2):
-    picture = picture[y1:y2, x1:x2, :]
+
+def cutpic(picture, dots):
+    picture = picture[dots[0]:dots[1], dots[2]:dots[3], :]
 
     return picture
+
 
 def polynom(stripes, dots, degree):
     mercury = [576.96, 546.074, 435.83]
@@ -33,71 +36,108 @@ def polynom(stripes, dots, degree):
     yvals = np.polyval(polynom, stripes)
     mercurySpectr = np.polyval(polynom, np.linspace(1, dots[1] - dots[0], dots[1] - dots[0])) # Ox for all plots in wavelengths
 
-    return mercurySpectr
+    data = [yvals, mercurySpectr]
+
+    return  data
 
 
-def intensity(color, num):
-    whiteIL = []
-    allColorsAL = []
+def intensities(colors, dots):
+    intensities = []
 
     for i in range (len(colors)):
-        oneColorIL = []
+        intensity = []
 
-        for y in range (height):
-            OSI = 0
-            WI = 0
+        for y in range (dots[1]-dots[0]):
+            oneStripeIntence = 0
 
-            for x in range (width):
+            for x in range (dots[3]-dots[2]):
                     
                 if sum(colors[i][y, x, :]) > 0:
-                    OSI += sum(colors[i][y, x, :])
-                    WI += sum(colors[0][y, x, :])
+                    oneStripeIntence += sum(colors[i][y, x, :])
 
-            WI = int(WI/(3*width))
-            OSI = int(OSI/(3*width))  
-            albedo = OSI/WI
+            oneStripeIntence = int( oneStripeIntence/(3*(dots[3]-dots[2]) ))   
+            intensity.append(oneStripeIntence)
+        intensities.append(intensity)
+    
+    return intensities
 
-            oneColorAL.append(albedo) 
 
-            whiteIL.append(WI)
-            oneColorIL.append(OSI)
+def albedoes(intensities, num):
 
-        allColorsIL.append(oneColorIL)
+    albedoes = []
 
-def albedo(colors[i]), num):
+    for i in range (len(intensities)):
+        albedo = []
 
-    allColorsIL = []
-    whiteIL = []
-    allColorsAL = []
-
-    for i in range (len(colors)):
-        oneColorIL = []
-        oneColorAL = []
+        for k in range (len(intensities[i])):
+            albedo.append(intensities[i][k]/intensities[num][k])
         
-        for y in range (height):
-            OSI = 0
-            WI = 0
+        albedoes.append(albedo)
 
-            for x in range (width):
-                    
-                if sum(colors[i][y, x, :]) > 0:
-                    OSI += sum(colors[i][y, x, :])
-                    WI += sum(colors[0][y, x, :])
+    return albedoes
 
-            WI = int(WI/(3*width))
-            OSI = int(OSI/(3*width))  
-            albedo = OSI/WI
 
-            oneColorAL.append(albedo) 
+def polynomPlot(xScatter, stripes, degree, dir):
+    mercury = [576.96, 546.074, 435.83]
 
-            whiteIL.append(WI)
-            oneColorIL.append(OSI)
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    ax.grid(color = 'gray', linestyle = ':')
+    ax.set(title = 'Зависимость длины волны от номера пикселя (по высоте)', xlabel = 'Номер пикселя', ylabel = 'Длина волны, нм', label = '')
 
-        allColorsAL.append(oneColorAL)
-        allColorsIL.append(oneColorIL)
+    ax.scatter(stripes, mercury, label = 'Точки соответствия номеров пикселей длинам волн')
+    ax.plot(stripes, xScatter, label = 'Подобранный полином {} степени'.format(degree))
+    ax.legend(loc=1, bbox_to_anchor=(1, 0.15), prop={'size': 9})
 
-def polynomPlot():
+    fig.savefig(dir + 'polynom.png')
+    plt.show()
 
-def intensitiesPlot():
 
-def albedosPlot():
+def intensitiesPlot(intensities, wavelength, dir):
+    dir1  = 'C:/Users/User/Desktop/Repositories/get/12-spectr/DATA/spectr_photos/'
+    rainbow = os.listdir(dir1)
+    for i in range(len(rainbow)):
+        rainbow[i] = rainbow[i][:-4]
+    print(rainbow)
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111)           
+    ax.grid(color = 'gray', linestyle = ':')
+    ax.set(title = '', xlabel = 'Длина волны, нм', ylabel = 'Интенсивность')
+    
+    for i in range(len(intensities)):
+        ax.plot(wavelength, intensities[i], label = rainbow[i], color = rainbow[i])
+        ax.legend()
+
+    plt.show()
+    fig.savefig(dir + 'intensitiesPlot.png')
+
+
+def albedoesPlot(albedoes, wavelength, dir):
+
+    dir1  = 'C:/Users/User/Desktop/Repositories/get/12-spectr/DATA/spectr_photos/'
+    rainbow = os.listdir(dir1)
+    for i in range(len(rainbow)):
+        rainbow[i] = rainbow[i][:-4]
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111)           
+    ax.grid(color = 'gray', linestyle = ':')
+    ax.set(title = 'График зависимости альбедо от длины волны', xlabel = 'Длина волны, нм', ylabel = 'Истиное альбедо')
+    
+    for i in range(len(albedoes)):
+        ax.plot(wavelength, albedoes[i], label = rainbow[i], color = rainbow[i])
+        ax.legend()
+
+        fig1 = plt.figure()
+        ax1 = fig1.add_subplot(111)           
+        ax1.grid(color = 'gray', linestyle = ':')
+        ax1.set(title = 'График зависимости альбедо от длины волны', xlabel = 'Длина волны, нм', ylabel = 'Истиное альбедо')
+        ax1.plot(wavelength, albedoes[i], label = rainbow[i], color = rainbow[i])
+        ax1.legend()
+
+        fig.savefig(dir + 'albedoPlot{}.png'.format(i))
+
+
+    plt.show()
+    fig.savefig(dir + 'albedoPlot.png')
