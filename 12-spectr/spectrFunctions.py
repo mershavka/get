@@ -94,6 +94,7 @@ def polynomPlot(xScatter, stripes, degree, dir):
 
 
 def intensitiesPlot(intensities, wavelength, dir):
+    
     dir1  = 'C:/Users/User/Desktop/Repositories/get/12-spectr/DATA/spectr_photos/'
     rainbow = os.listdir(dir1)
     for i in range(len(rainbow)):
@@ -136,7 +137,7 @@ def albedoesPlot(albedoes, wavelength, dir):
         ax1.plot(wavelength, albedoes[i], label = rainbow[i], color = rainbow[i])
         ax1.legend()
 
-        fig.savefig(dir + 'albedoPlot{}.png'.format(i))
+        fig1.savefig(dir + 'albedoPlot{}.png'.format(rainbow[i]))
 
 
     plt.show()
